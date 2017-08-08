@@ -35,3 +35,16 @@ extension UIView {
         self.layer.shadowRadius = 5
     }
 }
+
+extension UILabel {
+    func animate(toText:String) {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.alpha = 0
+        }, completion: { finished in
+            self.text = toText
+            UIView.animate(withDuration: 0.35, animations: {
+                self.alpha = 1
+            })
+        })
+    }
+}

@@ -181,6 +181,18 @@ class GPStackView:UIStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    var layerColors:[CGColor] {
+        set {
+            if let laya = self.layer as? CAGradientLayer {
+                laya.colors = newValue
+                laya.locations = [0.0, 1.20]
+            }
+        }
+        get {
+            return [ UIColor(rgb: 0x82D15C).cgColor, UIColor(rgb: 0x11C2D3).cgColor ]
+        }
+    }
+    
     func phaseTwo() {
         if let laya = self.layer as? CAGradientLayer {
             laya.colors = [ UIColor(rgb: 0x82D15C).cgColor, UIColor(rgb: 0x11C2D3).cgColor ]
@@ -190,6 +202,36 @@ class GPStackView:UIStackView {
         self.layer.cornerRadius = 12
         self.addDropShadowToView()
     }
+    
+    override class var layerClass: AnyClass {
+        return CAGradientLayer.self
+    }
+}
+
+class MaxView:UIView {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        phaseTwo()
+    }
+    
+    init() {
+        super.init(frame: .zero)
+        self.translatesAutoresizingMaskIntoConstraints = false
+        phaseTwo()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func phaseTwo() {
+        if let laya = self.layer as? CAGradientLayer {
+            laya.colors = [ UIColor(rgb: 0xFFFFFF).cgColor, UIColor(rgb: 0x11C2D3).cgColor ]
+            laya.locations = [0.0, 1.20]
+        }
+        self.addDropShadowToView()
+    }
+    
     
     override class var layerClass: AnyClass {
         return CAGradientLayer.self

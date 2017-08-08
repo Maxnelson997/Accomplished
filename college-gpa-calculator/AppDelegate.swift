@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         let main_controller = MainController()
+
 //        main_nav = UINavigationController(rootViewController: main_controller)
 //        main_nav.tabBarItem.title = "GPA"
         window = UIWindow(frame: UIScreen.main.bounds)

@@ -19,6 +19,13 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     
     let flipView:GPFlipView = GPFlipView()
     
+
+
+  
+    
+    
+
+    
     let semester_cv:UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
@@ -27,7 +34,8 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(semester_cell.self, forCellWithReuseIdentifier: "semester_cell")
         cv.register(CVHeader.self, forSupplementaryViewOfKind: "UICollectionElementKindSectionHeader", withReuseIdentifier: "header")
-        cv.backgroundColor = UIColor.darkGray.withAlphaComponent(0.5)
+        cv.backgroundColor = .clear
+//        cv.backgroundColor = UIColor.darkGray.withAlphaComponent(0.5)
         return cv
     }()
     
@@ -41,7 +49,8 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         cv.register(CVHeader.self, forSupplementaryViewOfKind: "UICollectionElementKindSectionHeader", withReuseIdentifier: "header")
 //        cv.backgroundColor = UIColor.black.withAlphaComponent(0.1)
         cv.layer.borderColor = UIColor.darkGray.cgColor
-        cv.backgroundColor = UIColor.darkGray.withAlphaComponent(0.5)
+        cv.backgroundColor = .clear
+//        cv.backgroundColor = UIColor.darkGray.withAlphaComponent(0.5)
         return cv
     }()
     
@@ -49,6 +58,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
        let s = UIStackView(arrangedSubviews: [self.gpaLabel, self.gpaBoxLabel, self.space0, self.flipView])
         s.translatesAutoresizingMaskIntoConstraints = false
         s.backgroundColor = .clear
+//        s.layerColors = [ UIColor(rgb: 0xFFFFFF).cgColor, UIColor(rgb: 0x11C2D3).cgColor ]
         s.axis = .vertical
         return s
     }()
@@ -59,7 +69,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.view = MaxView(frame: UIScreen.main.bounds)
         space0.textColor = UIColor.darkGray
         space0.text = "SEMESTERS"
         space0.backgroundColor = .clear
@@ -155,7 +165,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             } else {
                 class_cv.reloadData()
             }
-            space0.text = model.semesters[model.selected_semester_index].name
+            space0.animate(toText: model.semesters[model.selected_semester_index].name)
             flipView.switchViews {
                 
             }
@@ -204,11 +214,14 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     
     
     func SwitchView() {
-        space0.text = "\(String(describing: model.semesters.count)) SEMESTERS"
+        space0.animate(toText: "\(String(describing: self.model.semesters.count)) SEMESTERS")
         flipView.switchViews {
             
         }
     }
+    
+
+
     
 //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
 //        if collectionView == semester_cv {

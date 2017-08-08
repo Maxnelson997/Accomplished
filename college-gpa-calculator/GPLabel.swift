@@ -29,7 +29,7 @@ class GPLabel: UILabel {
     {
 //        self.layer.masksToBounds = true
 //        self.layer.cornerRadius = 12
-        self.backgroundColor = UIColor.darkGray.withAlphaComponent(0.5)
+        self.backgroundColor = UIColor.darkGray.withAlphaComponent(0.2)
         self.textColor = .white
         self.adjustsFontSizeToFitWidth = true
         self.adjustsFontForContentSizeCategory = true
