@@ -1,0 +1,563 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		79126E6F1F38CF55002D640C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79126E6E1F38CF55002D640C /* AppDelegate.swift */; };
+		79126E711F38CF55002D640C /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79126E701F38CF55002D640C /* MainController.swift */; };
+		79126E771F38CF55002D640C /* college_gpa_calculator.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 79126E751F38CF55002D640C /* college_gpa_calculator.xcdatamodeld */; };
+		79126E791F38CF55002D640C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79126E781F38CF55002D640C /* Assets.xcassets */; };
+		79126E7C1F38CF55002D640C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79126E7A1F38CF55002D640C /* LaunchScreen.storyboard */; };
+		79126E871F38CF55002D640C /* college_gpa_calculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79126E861F38CF55002D640C /* college_gpa_calculatorTests.swift */; };
+		79126E921F38CF55002D640C /* college_gpa_calculatorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79126E911F38CF55002D640C /* college_gpa_calculatorUITests.swift */; };
+		7969A04A1F3925F800923C68 /* GPLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7969A0491F3925F800923C68 /* GPLabel.swift */; };
+		7969A04C1F39269100923C68 /* GPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7969A04B1F39269100923C68 /* GPView.swift */; };
+		7969A04E1F39271600923C68 /* GPFlipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7969A04D1F39271600923C68 /* GPFlipView.swift */; };
+		7969A0501F3932B500923C68 /* GPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7969A04F1F3932B500923C68 /* GPModel.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		79126E831F38CF55002D640C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 79126E631F38CF54002D640C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 79126E6A1F38CF54002D640C;
+			remoteInfo = "college-gpa-calculator";
+		};
+		79126E8E1F38CF55002D640C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 79126E631F38CF54002D640C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 79126E6A1F38CF54002D640C;
+			remoteInfo = "college-gpa-calculator";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		79126E6B1F38CF55002D640C /* college-gpa-calculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "college-gpa-calculator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		79126E6E1F38CF55002D640C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		79126E701F38CF55002D640C /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
+		79126E761F38CF55002D640C /* college_gpa_calculator.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = college_gpa_calculator.xcdatamodel; sourceTree = "<group>"; };
+		79126E781F38CF55002D640C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		79126E7B1F38CF55002D640C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		79126E7D1F38CF55002D640C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		79126E821F38CF55002D640C /* college-gpa-calculatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "college-gpa-calculatorTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		79126E861F38CF55002D640C /* college_gpa_calculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = college_gpa_calculatorTests.swift; sourceTree = "<group>"; };
+		79126E881F38CF55002D640C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		79126E8D1F38CF55002D640C /* college-gpa-calculatorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "college-gpa-calculatorUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		79126E911F38CF55002D640C /* college_gpa_calculatorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = college_gpa_calculatorUITests.swift; sourceTree = "<group>"; };
+		79126E931F38CF55002D640C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7969A0491F3925F800923C68 /* GPLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPLabel.swift; sourceTree = "<group>"; };
+		7969A04B1F39269100923C68 /* GPView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPView.swift; sourceTree = "<group>"; };
+		7969A04D1F39271600923C68 /* GPFlipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPFlipView.swift; sourceTree = "<group>"; };
+		7969A04F1F3932B500923C68 /* GPModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPModel.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		79126E681F38CF54002D640C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		79126E7F1F38CF55002D640C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		79126E8A1F38CF55002D640C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		79126E621F38CF54002D640C = {
+			isa = PBXGroup;
+			children = (
+				79126E6D1F38CF55002D640C /* college-gpa-calculator */,
+				79126E851F38CF55002D640C /* college-gpa-calculatorTests */,
+				79126E901F38CF55002D640C /* college-gpa-calculatorUITests */,
+				79126E6C1F38CF55002D640C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		79126E6C1F38CF55002D640C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				79126E6B1F38CF55002D640C /* college-gpa-calculator.app */,
+				79126E821F38CF55002D640C /* college-gpa-calculatorTests.xctest */,
+				79126E8D1F38CF55002D640C /* college-gpa-calculatorUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		79126E6D1F38CF55002D640C /* college-gpa-calculator */ = {
+			isa = PBXGroup;
+			children = (
+				79126E6E1F38CF55002D640C /* AppDelegate.swift */,
+				79126E701F38CF55002D640C /* MainController.swift */,
+				7969A04F1F3932B500923C68 /* GPModel.swift */,
+				7969A0491F3925F800923C68 /* GPLabel.swift */,
+				7969A04B1F39269100923C68 /* GPView.swift */,
+				7969A04D1F39271600923C68 /* GPFlipView.swift */,
+				79126E781F38CF55002D640C /* Assets.xcassets */,
+				79126E7A1F38CF55002D640C /* LaunchScreen.storyboard */,
+				79126E7D1F38CF55002D640C /* Info.plist */,
+				79126E751F38CF55002D640C /* college_gpa_calculator.xcdatamodeld */,
+			);
+			path = "college-gpa-calculator";
+			sourceTree = "<group>";
+		};
+		79126E851F38CF55002D640C /* college-gpa-calculatorTests */ = {
+			isa = PBXGroup;
+			children = (
+				79126E861F38CF55002D640C /* college_gpa_calculatorTests.swift */,
+				79126E881F38CF55002D640C /* Info.plist */,
+			);
+			path = "college-gpa-calculatorTests";
+			sourceTree = "<group>";
+		};
+		79126E901F38CF55002D640C /* college-gpa-calculatorUITests */ = {
+			isa = PBXGroup;
+			children = (
+				79126E911F38CF55002D640C /* college_gpa_calculatorUITests.swift */,
+				79126E931F38CF55002D640C /* Info.plist */,
+			);
+			path = "college-gpa-calculatorUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		79126E6A1F38CF54002D640C /* college-gpa-calculator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 79126E961F38CF55002D640C /* Build configuration list for PBXNativeTarget "college-gpa-calculator" */;
+			buildPhases = (
+				79126E671F38CF54002D640C /* Sources */,
+				79126E681F38CF54002D640C /* Frameworks */,
+				79126E691F38CF54002D640C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "college-gpa-calculator";
+			productName = "college-gpa-calculator";
+			productReference = 79126E6B1F38CF55002D640C /* college-gpa-calculator.app */;
+			productType = "com.apple.product-type.application";
+		};
+		79126E811F38CF55002D640C /* college-gpa-calculatorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 79126E991F38CF55002D640C /* Build configuration list for PBXNativeTarget "college-gpa-calculatorTests" */;
+			buildPhases = (
+				79126E7E1F38CF55002D640C /* Sources */,
+				79126E7F1F38CF55002D640C /* Frameworks */,
+				79126E801F38CF55002D640C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				79126E841F38CF55002D640C /* PBXTargetDependency */,
+			);
+			name = "college-gpa-calculatorTests";
+			productName = "college-gpa-calculatorTests";
+			productReference = 79126E821F38CF55002D640C /* college-gpa-calculatorTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		79126E8C1F38CF55002D640C /* college-gpa-calculatorUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 79126E9C1F38CF55002D640C /* Build configuration list for PBXNativeTarget "college-gpa-calculatorUITests" */;
+			buildPhases = (
+				79126E891F38CF55002D640C /* Sources */,
+				79126E8A1F38CF55002D640C /* Frameworks */,
+				79126E8B1F38CF55002D640C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				79126E8F1F38CF55002D640C /* PBXTargetDependency */,
+			);
+			name = "college-gpa-calculatorUITests";
+			productName = "college-gpa-calculatorUITests";
+			productReference = 79126E8D1F38CF55002D640C /* college-gpa-calculatorUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		79126E631F38CF54002D640C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "Max Nelson";
+				TargetAttributes = {
+					79126E6A1F38CF54002D640C = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = VETRU2J3NX;
+						ProvisioningStyle = Automatic;
+					};
+					79126E811F38CF55002D640C = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = VETRU2J3NX;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 79126E6A1F38CF54002D640C;
+					};
+					79126E8C1F38CF55002D640C = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = VETRU2J3NX;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 79126E6A1F38CF54002D640C;
+					};
+				};
+			};
+			buildConfigurationList = 79126E661F38CF54002D640C /* Build configuration list for PBXProject "college-gpa-calculator" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 79126E621F38CF54002D640C;
+			productRefGroup = 79126E6C1F38CF55002D640C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				79126E6A1F38CF54002D640C /* college-gpa-calculator */,
+				79126E811F38CF55002D640C /* college-gpa-calculatorTests */,
+				79126E8C1F38CF55002D640C /* college-gpa-calculatorUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		79126E691F38CF54002D640C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				79126E7C1F38CF55002D640C /* LaunchScreen.storyboard in Resources */,
+				79126E791F38CF55002D640C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		79126E801F38CF55002D640C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		79126E8B1F38CF55002D640C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		79126E671F38CF54002D640C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				79126E711F38CF55002D640C /* MainController.swift in Sources */,
+				79126E6F1F38CF55002D640C /* AppDelegate.swift in Sources */,
+				7969A04E1F39271600923C68 /* GPFlipView.swift in Sources */,
+				79126E771F38CF55002D640C /* college_gpa_calculator.xcdatamodeld in Sources */,
+				7969A04A1F3925F800923C68 /* GPLabel.swift in Sources */,
+				7969A0501F3932B500923C68 /* GPModel.swift in Sources */,
+				7969A04C1F39269100923C68 /* GPView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		79126E7E1F38CF55002D640C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				79126E871F38CF55002D640C /* college_gpa_calculatorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		79126E891F38CF55002D640C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				79126E921F38CF55002D640C /* college_gpa_calculatorUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		79126E841F38CF55002D640C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 79126E6A1F38CF54002D640C /* college-gpa-calculator */;
+			targetProxy = 79126E831F38CF55002D640C /* PBXContainerItemProxy */;
+		};
+		79126E8F1F38CF55002D640C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 79126E6A1F38CF54002D640C /* college-gpa-calculator */;
+			targetProxy = 79126E8E1F38CF55002D640C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		79126E7A1F38CF55002D640C /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				79126E7B1F38CF55002D640C /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		79126E941F38CF55002D640C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		79126E951F38CF55002D640C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		79126E971F38CF55002D640C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = VETRU2J3NX;
+				INFOPLIST_FILE = "college-gpa-calculator/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.maxnelsondevelopment.college-gpa-calculator";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		79126E981F38CF55002D640C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = VETRU2J3NX;
+				INFOPLIST_FILE = "college-gpa-calculator/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.maxnelsondevelopment.college-gpa-calculator";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		79126E9A1F38CF55002D640C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = VETRU2J3NX;
+				INFOPLIST_FILE = "college-gpa-calculatorTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.maxnelsondevelopment.college-gpa-calculatorTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/college-gpa-calculator.app/college-gpa-calculator";
+			};
+			name = Debug;
+		};
+		79126E9B1F38CF55002D640C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = VETRU2J3NX;
+				INFOPLIST_FILE = "college-gpa-calculatorTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.maxnelsondevelopment.college-gpa-calculatorTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/college-gpa-calculator.app/college-gpa-calculator";
+			};
+			name = Release;
+		};
+		79126E9D1F38CF55002D640C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = VETRU2J3NX;
+				INFOPLIST_FILE = "college-gpa-calculatorUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.maxnelsondevelopment.college-gpa-calculatorUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = "college-gpa-calculator";
+			};
+			name = Debug;
+		};
+		79126E9E1F38CF55002D640C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = VETRU2J3NX;
+				INFOPLIST_FILE = "college-gpa-calculatorUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.maxnelsondevelopment.college-gpa-calculatorUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = "college-gpa-calculator";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		79126E661F38CF54002D640C /* Build configuration list for PBXProject "college-gpa-calculator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				79126E941F38CF55002D640C /* Debug */,
+				79126E951F38CF55002D640C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		79126E961F38CF55002D640C /* Build configuration list for PBXNativeTarget "college-gpa-calculator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				79126E971F38CF55002D640C /* Debug */,
+				79126E981F38CF55002D640C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		79126E991F38CF55002D640C /* Build configuration list for PBXNativeTarget "college-gpa-calculatorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				79126E9A1F38CF55002D640C /* Debug */,
+				79126E9B1F38CF55002D640C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		79126E9C1F38CF55002D640C /* Build configuration list for PBXNativeTarget "college-gpa-calculatorUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				79126E9D1F38CF55002D640C /* Debug */,
+				79126E9E1F38CF55002D640C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		79126E751F38CF55002D640C /* college_gpa_calculator.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				79126E761F38CF55002D640C /* college_gpa_calculator.xcdatamodel */,
+			);
+			currentVersion = 79126E761F38CF55002D640C /* college_gpa_calculator.xcdatamodel */;
+			path = college_gpa_calculator.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 79126E631F38CF54002D640C /* Project object */;
+}
