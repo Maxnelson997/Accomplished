@@ -27,13 +27,14 @@ class GPLabel: UILabel {
 
     func phaseTwo()
     {
-        self.layer.masksToBounds = true
-        self.layer.cornerRadius = 12
-        self.backgroundColor = UIColor.darkGray.withAlphaComponent(0.2)
+//        self.layer.masksToBounds = true
+//        self.layer.cornerRadius = 12
+        self.backgroundColor = UIColor.darkGray.withAlphaComponent(0.4)
         self.textColor = .white
+        self.adjustsFontSizeToFitWidth = true
+        self.adjustsFontForContentSizeCategory = true
         
     }
-
     
 
 }

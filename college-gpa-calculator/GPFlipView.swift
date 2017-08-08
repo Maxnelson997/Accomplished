@@ -35,7 +35,8 @@ class GPFlipView: UIView {
     var current_view_cons:[NSLayoutConstraint]!
     var second_cons:[NSLayoutConstraint]!
     
-    let viewColor = UIColor.init(red: 75/255, green: 75/255, blue: 75/255, alpha: 0.5)
+//    let viewColor = UIColor.init(red: 175/255, green: 175/255, blue: 175/255, alpha: 0.5)
+    let viewColor = UIColor.clear
     
     func phaseTwo() {
         firstView = GPView()
@@ -43,8 +44,9 @@ class GPFlipView: UIView {
         
         flipViews = (front: firstView, back: secondView)
         
+        addSubview(flipViews!.front)
+        
         setup_cons()
-
     }
     
     func setup_cons() {
@@ -54,11 +56,12 @@ class GPFlipView: UIView {
             self.flipViews!.front.topAnchor.constraint(equalTo: self.topAnchor),
             self.flipViews!.front.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ]
+        
         NSLayoutConstraint.activate(current_view_cons)
     }
     
    
-    func flipViews(completion: @escaping () -> Void) {
+    func switchViews(completion: @escaping () -> Void) {
         var transitionOptions:UIViewAnimationOptions!
         if isFlipped {
             transitionOptions = .transitionFlipFromLeft
@@ -67,6 +70,7 @@ class GPFlipView: UIView {
             transitionOptions = .transitionFlipFromRight
             flipViews = (front: secondView, back: firstView)
         }
+        isFlipped = !isFlipped
         
         UIView.transition(with: self, duration: 0.65, options: transitionOptions, animations: {
             self.flipViews!.back.removeFromSuperview()

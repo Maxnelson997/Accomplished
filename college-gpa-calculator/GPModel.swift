@@ -22,10 +22,10 @@ extension UIView {
 class GPModel {
     static let sharedInstance = GPModel()
     private init() {}
-    
-    var selected_semester_index:Int!
+
+    var selected_semester_index:Int = 0
     var semesters:[semester] = [
-        semester(name: "Fall 17", gpa: "3.6", classes: [semester_class(name: "Algorithms", grade: "A", hours: 3, gpa: "4.0"), semester_class(name: "Comp Organization", grade: "B+", hours: 3, gpa: "3.20")]),
+        semester(name: "Fall 17", gpa: "3.6", classes: [ semester_class(name: "Algorithms", grade: "A", hours: 3, gpa: "4.0"), semester_class(name: "Comp Organization", grade: "B+", hours: 3, gpa: "3.20")]),
         semester(name: "Spring 17", gpa: "3.14", classes: [semester_class(name: "Math", grade: "A+", hours: 5, gpa: "3.6"), semester_class(name: "English", grade: "A-", hours: 3, gpa: "4.00")])
     ]
 }
@@ -33,7 +33,7 @@ class GPModel {
 struct semester {
     var name:String!
     var gpa:String!
-    var classes:[semester_class]!
+    var classes:[semester_class] = []
 }
 
 struct semester_class {
@@ -43,72 +43,3 @@ struct semester_class {
     var gpa:String!
 }
 
-class semester_cell:UICollectionViewCell {
-    
-    var name:GPLabel!
-    var gpa:GPLabel!
-    
-    fileprivate lazy var stack:UIStackView = {
-        let s = UIStackView(arrangedSubviews: [self.name, self.gpa])
-        s.translatesAutoresizingMaskIntoConstraints = false
-        return s
-    }()
-    
-    var stack_cons:[NSLayoutConstraint]!
-    
-    var exists:Bool = false
-    
-    override func awakeFromNib() {
-        if !exists {
-            stack_cons = stack.getConstraintsOfView(to: self)
-            NSLayoutConstraint.activate(stack_cons)
-            
-            NSLayoutConstraint.activate([
-                name.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.3),
-                gpa.heightAnchor.constraint(equalTo: gpa.heightAnchor, multiplier: 0.7),
-                ])
-            exists = true
-        }
-    }
-    override func prepareForReuse() {
-        
-    }
-}
-
-
-class class_cell:UICollectionViewCell {
-    
-    var name:GPLabel!
-    var grade:GPLabel!
-    var hours:GPLabel!
-    var gpa:GPLabel!
-    
-    fileprivate lazy var stack:UIStackView = {
-       let s = UIStackView(arrangedSubviews: [self.name, self.grade, self.hours, self.gpa])
-        s.translatesAutoresizingMaskIntoConstraints = false
-        return s
-    }()
-    
-    var stack_cons:[NSLayoutConstraint]!
-    var exists:Bool = false
-    
-    override func awakeFromNib() {
-        if !exists {
-            stack_cons = stack.getConstraintsOfView(to: self)
-            NSLayoutConstraint.activate(stack_cons)
-            
-            NSLayoutConstraint.activate([
-                name.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.25),
-                grade.heightAnchor.constraint(equalTo: grade.heightAnchor, multiplier: 0.25),
-                hours.heightAnchor.constraint(equalTo: hours.heightAnchor, multiplier: 0.25),
-                gpa.heightAnchor.constraint(equalTo: gpa.heightAnchor, multiplier: 0.25),
-                ])
-            exists = true
-        }
-
-    }
-    
-    override func prepareForReuse() {
-        
-    }
-}

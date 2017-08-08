@@ -10,9 +10,11 @@ import UIKit
 
 class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
 
-    let GPAView:GPView = GPView()
-    let GPALabel:GPLabel = GPLabel()
-    let GPABoxLabel:GPLabel = GPLabel()
+    let gpaView:GPView = GPView()
+    let gpaLabel:GPLabel = GPLabel()
+    let gpaBoxLabel:GPLabel = GPLabel()
+    
+    let space0:GPLabel = GPLabel()
     
     let model:GPModel = GPModel.sharedInstance
     
@@ -20,24 +22,32 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     
     let semester_cv:UICollectionView = {
         let layout = UICollectionViewFlowLayout()
+        layout.minimumInteritemSpacing = 10
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(semester_cell.self, forCellWithReuseIdentifier: "semester_cell")
+        cv.register(CVHeader.self, forSupplementaryViewOfKind: "UICollectionElementKindSectionHeader", withReuseIdentifier: "header")
         return cv
     }()
     
     let class_cv:UICollectionView = {
         let layout = UICollectionViewFlowLayout()
+
+        layout.minimumInteritemSpacing = 10
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.register(semester_cell.self, forCellWithReuseIdentifier: "class_cell")
+        cv.register(class_cell.self, forCellWithReuseIdentifier: "class_cell")
+        cv.register(CVHeader.self, forSupplementaryViewOfKind: "UICollectionElementKindSectionHeader", withReuseIdentifier: "header")
+        cv.backgroundColor = UIColor.black.withAlphaComponent(0.1)
+        cv.layer.borderColor = UIColor.darkGray.cgColor
         return cv
     }()
     
     fileprivate lazy var stack:UIStackView = {
-       let s = UIStackView(arrangedSubviews: [self.GPAView, self.flipView])
+       let s = UIStackView(arrangedSubviews: [self.gpaView, self.space0, self.flipView])
         s.translatesAutoresizingMaskIntoConstraints = false
         s.backgroundColor = .clear
+        s.axis = .vertical
         return s
     }()
     
@@ -45,32 +55,45 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     var stack_cons:[NSLayoutConstraint]!
     var cv_cons:[NSLayoutConstraint]!
     
-    var selected_semester_index:Int!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        space0.textColor = UIColor.darkGray
+        space0.text = "SEMESTERS"
+        space0.backgroundColor = .clear
+        gpaLabel.text = "Overview"
+        gpaBoxLabel.text = "3.14"
+        
         view.backgroundColor = .white
+        
+        view.addSubview(stack)
+
         
         stack_cons = [
             stack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
             stack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
-            stack.topAnchor.constraint(equalTo: view.topAnchor),
-            stack.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            stack.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
+            stack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
             
-            GPAView.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.3),
-            flipView.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.7)
+            gpaView.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.25),
+            space0.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.1),
+            flipView.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.65)
         ]
+        flipView.firstView.addSubview(semester_cv)
+        flipView.secondView.addSubview(class_cv)
         
+        gpaView.addSubview(gpaLabel)
+        gpaView.addSubview(gpaBoxLabel)
         gpa_cons = [
-            GPALabel.topAnchor.constraint(equalTo: GPAView.topAnchor),
-            GPALabel.leftAnchor.constraint(equalTo: GPAView.leftAnchor),
-            GPALabel.rightAnchor.constraint(equalTo: GPAView.rightAnchor),
-            GPALabel.heightAnchor.constraint(equalTo: GPAView.heightAnchor, multiplier: 0.5),
+            gpaLabel.topAnchor.constraint(equalTo: gpaView.topAnchor),
+            gpaLabel.leftAnchor.constraint(equalTo: gpaView.leftAnchor),
+            gpaLabel.rightAnchor.constraint(equalTo: gpaView.rightAnchor),
+            gpaLabel.heightAnchor.constraint(equalTo: gpaView.heightAnchor, multiplier: 0.5),
             
-            GPABoxLabel.bottomAnchor.constraint(equalTo: GPAView.bottomAnchor),
-            GPABoxLabel.leftAnchor.constraint(equalTo: GPAView.leftAnchor),
-            GPABoxLabel.rightAnchor.constraint(equalTo: GPAView.rightAnchor),
-            GPABoxLabel.heightAnchor.constraint(equalTo: GPAView.heightAnchor, multiplier: 0.4),
+            gpaBoxLabel.bottomAnchor.constraint(equalTo: gpaView.bottomAnchor),
+            gpaBoxLabel.leftAnchor.constraint(equalTo: gpaView.leftAnchor),
+            gpaBoxLabel.rightAnchor.constraint(equalTo: gpaView.rightAnchor),
+            gpaBoxLabel.heightAnchor.constraint(equalTo: gpaView.heightAnchor, multiplier: 0.4),
         ]
         
         cv_cons = [
@@ -88,17 +111,11 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         NSLayoutConstraint.activate(stack_cons)
         NSLayoutConstraint.activate(gpa_cons)
         NSLayoutConstraint.activate(cv_cons)
-        
-        //test data
-        model.semesters = [
-            
-        ]
-        //test data
 
         semester_cv.delegate = self
         semester_cv.dataSource = self
     }
-    
+
     //cv datasource and delegate
     
     //dataSource
@@ -106,7 +123,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         if collectionView == semester_cv {
             return model.semesters.count
         } else {
-            return model.semesters[selected_semester_index].classes.count
+            return model.semesters[model.selected_semester_index].classes.count
         }
     }
     
@@ -144,6 +161,10 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             } else {
                 class_cv.reloadData()
             }
+            space0.text = model.semesters[model.selected_semester_index].name
+            flipView.switchViews {
+                
+            }
         } else {
             
         }
@@ -153,19 +174,41 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     //flow
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == semester_cv {
-            let box_size = collectionView.frame.width/2 - 40
+            let box_size = collectionView.frame.width/2 - 5
             return CGSize(width: box_size, height: box_size)
         } else {
-            let box_size = collectionView.frame.width - 40
+            let box_size = collectionView.frame.width - 5
             return CGSize(width: box_size, height: box_size/2)
         }
     }
+
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        if collectionView == semester_cv {
-            return 10
-        } else {
-            return 20
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        switch kind {
+        case UICollectionElementKindSectionHeader:
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! CVHeader
+            header.awakeFromNib()
+            if collectionView == semester_cv {
+                
+            } else if collectionView == class_cv {
+                
+            }
+            header.backBtn.addTarget(self, action: #selector(self.SwitchView), for: .touchUpInside)
+            return header
+        default:
+            break
+        }
+        return UICollectionReusableView()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 50)
+    }
+    
+    func SwitchView() {
+        flipView.switchViews {
+            
         }
     }
     
