@@ -183,7 +183,7 @@ class GPStackView:UIStackView {
     
     func phaseTwo() {
         if let laya = self.layer as? CAGradientLayer {
-            laya.colors = [ UIColor(rgb: 0xD4ACCF).cgColor, UIColor(rgb: 0x11C2D3).cgColor ]
+            laya.colors = [ UIColor(rgb: 0x82D15C).cgColor, UIColor(rgb: 0x11C2D3).cgColor ]
             laya.locations = [0.0, 1.20]
         }
         self.layer.masksToBounds = true
