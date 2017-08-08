@@ -9,14 +9,13 @@
 import UIKit
 import Font_Awesome_Swift
 
-
 class semester_cell:UICollectionViewCell {
     
     var name:GPLabel = GPLabel()
     var gpa:GPLabel = GPLabel()
     
-    fileprivate lazy var stack:UIStackView = {
-        let s = UIStackView(arrangedSubviews: [self.name, self.gpa])
+    fileprivate lazy var stack:GPStackView = {
+        let s = GPStackView(arrangedSubviews: [self.name, self.gpa])
         s.translatesAutoresizingMaskIntoConstraints = false
         s.axis = .vertical
         return s
@@ -25,30 +24,35 @@ class semester_cell:UICollectionViewCell {
     var stack_cons:[NSLayoutConstraint]!
     
     var exists:Bool = false
+
+    
     
     override func awakeFromNib() {
-        
+        name.backgroundColor = .clear
+        gpa.backgroundColor = .clear
         if !exists {
             contentView.addSubview(stack)
-            stack_cons = stack.getConstraintsOfView(to: self.contentView)
+            stack_cons = [
+                stack.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20),
+                stack.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20),
+                stack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+                stack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
+            ]
             NSLayoutConstraint.activate(stack_cons)
-            //            stack_cons = [
-            //                stack.leftAnchor.constraint(equalTo: contentView.leftAnchor),
-            //                stack.rightAnchor.constraint(equalTo: contentView.rightAnchor),
-            //                stack.topAnchor.constraint(equalTo: contentView.topAnchor),
-            //                stack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            //            ]
-            //            NSLayoutConstraint.activate(stack_cons)
             NSLayoutConstraint.activate([
                 name.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.3),
                 gpa.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.7),
                 ])
             exists = true
-            stack.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         }
     }
     override func prepareForReuse() {
         
+    }
+    
+    
+    override class var layerClass: AnyClass {
+        return CAGradientLayer.self
     }
 }
 
@@ -60,36 +64,61 @@ class class_cell:UICollectionViewCell {
     var hours:GPLabel = GPLabel()
     var gpa:GPLabel = GPLabel()
     
+
     fileprivate lazy var stack:UIStackView = {
-        let s = UIStackView(arrangedSubviews: [self.name, self.grade, self.hours, self.gpa])
+        let s = UIStackView(arrangedSubviews: [self.grade, self.hours, self.gpa])
+        s.translatesAutoresizingMaskIntoConstraints = false
+        s.axis = .horizontal
+        return s
+    }()
+    
+    fileprivate lazy var stack1:GPStackView = {
+        let s = GPStackView(arrangedSubviews: [self.name, self.stack])
         s.translatesAutoresizingMaskIntoConstraints = false
         s.axis = .vertical
         return s
     }()
     
+    var stack1_cons:[NSLayoutConstraint]!
     var stack_cons:[NSLayoutConstraint]!
+    var name_cons:[NSLayoutConstraint]!
     var exists:Bool = false
+
     
     override func awakeFromNib() {
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = 12
+        name.backgroundColor = .clear
+        grade.backgroundColor = .clear
+        hours.backgroundColor = .clear
+        gpa.backgroundColor = .clear
+
         if !exists {
-            contentView.addSubview(stack)
-            stack_cons = stack.getConstraintsOfView(to: self.contentView)
-            NSLayoutConstraint.activate(stack_cons)
-            //
-            //            stack_cons = [
-            //                stack.leftAnchor.constraint(equalTo: contentView.leftAnchor),
-            //                stack.rightAnchor.constraint(equalTo: contentView.rightAnchor),
-            //                stack.topAnchor.constraint(equalTo: contentView.topAnchor),
-            //                stack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            //            ]
-            //            NSLayoutConstraint.activate(stack_cons)
+            contentView.addSubview(stack1)
+            
+            stack1_cons = [
+                stack1.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20),
+                stack1.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20),
+                stack1.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+                stack1.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
+            ]
+            
+            NSLayoutConstraint.activate(stack1_cons)
+
+
             NSLayoutConstraint.activate([
-                name.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.25),
-                grade.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.25),
-                hours.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.25),
-                gpa.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.25),
+                grade.widthAnchor.constraint(equalTo: stack.widthAnchor, multiplier: 1/3),
+                hours.widthAnchor.constraint(equalTo: stack.widthAnchor, multiplier: 1/3),
+                gpa.widthAnchor.constraint(equalTo: stack.widthAnchor, multiplier: 1/3),
                 ])
+            NSLayoutConstraint.activate([
+                name.heightAnchor.constraint(equalTo: stack1.heightAnchor, multiplier: 0.5),
+                stack.heightAnchor.constraint(equalTo: stack1.heightAnchor, multiplier: 0.5),
+      
+                ])
+
             exists = true
+            
         }
         
     }
@@ -132,6 +161,38 @@ class CVHeader:UICollectionReusableView {
     
     override func prepareForReuse() {
         
+    }
+}
+
+
+class GPStackView:UIStackView {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        phaseTwo()
+    }
+    
+    init() {
+        super.init(frame: .zero)
+        self.translatesAutoresizingMaskIntoConstraints = false
+        phaseTwo()
+    }
+    
+    required init(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func phaseTwo() {
+        if let laya = self.layer as? CAGradientLayer {
+            laya.colors = [ UIColor(rgb: 0xD4ACCF).cgColor, UIColor(rgb: 0x11C2D3).cgColor ]
+            laya.locations = [0.0, 1.20]
+        }
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = 12
+        self.addDropShadowToView()
+    }
+    
+    override class var layerClass: AnyClass {
+        return CAGradientLayer.self
     }
 }
 

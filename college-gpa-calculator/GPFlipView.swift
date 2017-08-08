@@ -41,6 +41,7 @@ class GPFlipView: UIView {
     func phaseTwo() {
         firstView = GPView()
         secondView = GPView()
+    
         
         flipViews = (front: firstView, back: secondView)
         

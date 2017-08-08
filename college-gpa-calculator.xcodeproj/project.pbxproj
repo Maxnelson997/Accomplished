@@ -16,6 +16,7 @@
 		79126E7C1F38CF55002D640C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79126E7A1F38CF55002D640C /* LaunchScreen.storyboard */; };
 		79126E871F38CF55002D640C /* college_gpa_calculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79126E861F38CF55002D640C /* college_gpa_calculatorTests.swift */; };
 		79126E921F38CF55002D640C /* college_gpa_calculatorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79126E911F38CF55002D640C /* college_gpa_calculatorUITests.swift */; };
+		793C28391F397E4600C05C4F /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793C28381F397E4600C05C4F /* extension.swift */; };
 		7969A04A1F3925F800923C68 /* GPLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7969A0491F3925F800923C68 /* GPLabel.swift */; };
 		7969A04C1F39269100923C68 /* GPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7969A04B1F39269100923C68 /* GPView.swift */; };
 		7969A04E1F39271600923C68 /* GPFlipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7969A04D1F39271600923C68 /* GPFlipView.swift */; };
@@ -60,6 +61,7 @@
 		79126E8D1F38CF55002D640C /* college-gpa-calculatorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "college-gpa-calculatorUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		79126E911F38CF55002D640C /* college_gpa_calculatorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = college_gpa_calculatorUITests.swift; sourceTree = "<group>"; };
 		79126E931F38CF55002D640C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		793C28381F397E4600C05C4F /* extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
 		7969A0491F3925F800923C68 /* GPLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPLabel.swift; sourceTree = "<group>"; };
 		7969A04B1F39269100923C68 /* GPView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPView.swift; sourceTree = "<group>"; };
 		7969A04D1F39271600923C68 /* GPFlipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPFlipView.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			children = (
 				79126E6E1F38CF55002D640C /* AppDelegate.swift */,
 				79126E701F38CF55002D640C /* MainController.swift */,
+				793C28381F397E4600C05C4F /* extension.swift */,
 				7969A04F1F3932B500923C68 /* GPModel.swift */,
 				7969A0511F3949DC00923C68 /* GPCellViews.swift */,
 				7969A0491F3925F800923C68 /* GPLabel.swift */,
@@ -466,6 +469,7 @@
 				79126E711F38CF55002D640C /* MainController.swift in Sources */,
 				7969A0521F3949DC00923C68 /* GPCellViews.swift in Sources */,
 				79126E6F1F38CF55002D640C /* AppDelegate.swift in Sources */,
+				793C28391F397E4600C05C4F /* extension.swift in Sources */,
 				7969A04E1F39271600923C68 /* GPFlipView.swift in Sources */,
 				79126E771F38CF55002D640C /* college_gpa_calculator.xcdatamodeld in Sources */,
 				7969A04A1F3925F800923C68 /* GPLabel.swift in Sources */,

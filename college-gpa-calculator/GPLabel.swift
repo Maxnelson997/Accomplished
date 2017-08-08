@@ -29,12 +29,17 @@ class GPLabel: UILabel {
     {
 //        self.layer.masksToBounds = true
 //        self.layer.cornerRadius = 12
-        self.backgroundColor = UIColor.darkGray.withAlphaComponent(0.4)
+        self.backgroundColor = UIColor.darkGray.withAlphaComponent(0.5)
         self.textColor = .white
         self.adjustsFontSizeToFitWidth = true
         self.adjustsFontForContentSizeCategory = true
         
     }
+    
+    override func drawText(in rect: CGRect) {
+        super.drawText(in: UIEdgeInsetsInsetRect(rect, UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)))
+    }
+
     
 
 }
