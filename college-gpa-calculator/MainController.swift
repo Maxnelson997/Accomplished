@@ -43,6 +43,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     
     var gpa_cons:[NSLayoutConstraint]!
     var stack_cons:[NSLayoutConstraint]!
+    var cv_cons:[NSLayoutConstraint]!
     
     var selected_semester_index:Int!
     
@@ -72,14 +73,31 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             GPABoxLabel.heightAnchor.constraint(equalTo: GPAView.heightAnchor, multiplier: 0.4),
         ]
         
+        cv_cons = [
+            semester_cv.leftAnchor.constraint(equalTo: flipView.firstView.leftAnchor),
+            semester_cv.rightAnchor.constraint(equalTo: flipView.firstView.rightAnchor),
+            semester_cv.topAnchor.constraint(equalTo: flipView.firstView.topAnchor),
+            semester_cv.bottomAnchor.constraint(equalTo: flipView.firstView.bottomAnchor),
+            
+            class_cv.leftAnchor.constraint(equalTo: flipView.secondView.leftAnchor),
+            class_cv.rightAnchor.constraint(equalTo: flipView.secondView.rightAnchor),
+            class_cv.topAnchor.constraint(equalTo: flipView.secondView.topAnchor),
+            class_cv.bottomAnchor.constraint(equalTo: flipView.secondView.bottomAnchor),
+        ]
+        
         NSLayoutConstraint.activate(stack_cons)
         NSLayoutConstraint.activate(gpa_cons)
+        NSLayoutConstraint.activate(cv_cons)
         
+        //test data
+        model.semesters = [
+            
+        ]
+        //test data
+
         semester_cv.delegate = self
         semester_cv.dataSource = self
-        
     }
-    
     
     //cv datasource and delegate
     

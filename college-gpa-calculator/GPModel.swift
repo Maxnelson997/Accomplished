@@ -24,10 +24,11 @@ class GPModel {
     private init() {}
     
     var selected_semester_index:Int!
-    var semesters:[semester]!
-    
+    var semesters:[semester] = [
+        semester(name: "Fall 17", gpa: "3.6", classes: [semester_class(name: "Algorithms", grade: "A", hours: 3, gpa: "4.0"), semester_class(name: "Comp Organization", grade: "B+", hours: 3, gpa: "3.20")]),
+        semester(name: "Spring 17", gpa: "3.14", classes: [semester_class(name: "Math", grade: "A+", hours: 5, gpa: "3.6"), semester_class(name: "English", grade: "A-", hours: 3, gpa: "4.00")])
+    ]
 }
-
 
 struct semester {
     var name:String!
