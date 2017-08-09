@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Font_Awesome_Swift
 
 class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
 
@@ -18,24 +19,19 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     let model:GPModel = GPModel.sharedInstance
     
     let flipView:GPFlipView = GPFlipView()
-    
 
-
-  
-    
-    
-
-    
     let semester_cv:UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        layout.sectionFootersPinToVisibleBounds = true
+        layout.sectionHeadersPinToVisibleBounds = true
         layout.minimumInteritemSpacing = 10
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(semester_cell.self, forCellWithReuseIdentifier: "semester_cell")
         cv.register(CVHeader.self, forSupplementaryViewOfKind: "UICollectionElementKindSectionHeader", withReuseIdentifier: "header")
+        cv.register(CVFooter.self, forSupplementaryViewOfKind: "UICollectionElementKindSectionFooter", withReuseIdentifier: "footer")
         cv.backgroundColor = .clear
-//        cv.backgroundColor = UIColor.darkGray.withAlphaComponent(0.5)
         return cv
     }()
     
@@ -43,14 +39,15 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         layout.minimumInteritemSpacing = 10
+        layout.sectionFootersPinToVisibleBounds = true
+        layout.sectionHeadersPinToVisibleBounds = true
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(class_cell.self, forCellWithReuseIdentifier: "class_cell")
         cv.register(CVHeader.self, forSupplementaryViewOfKind: "UICollectionElementKindSectionHeader", withReuseIdentifier: "header")
-//        cv.backgroundColor = UIColor.black.withAlphaComponent(0.1)
+        cv.register(CVFooter.self, forSupplementaryViewOfKind: "UICollectionElementKindSectionFooter", withReuseIdentifier: "footer")
         cv.layer.borderColor = UIColor.darkGray.cgColor
         cv.backgroundColor = .clear
-//        cv.backgroundColor = UIColor.darkGray.withAlphaComponent(0.5)
         return cv
     }()
     
@@ -97,6 +94,9 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         
         flipView.firstView.addSubview(semester_cv)
         flipView.secondView.addSubview(class_cv)
+        
+
+        
 
         cv_cons = [
             semester_cv.leftAnchor.constraint(equalTo: flipView.firstView.leftAnchor),
@@ -117,6 +117,46 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         semester_cv.dataSource = self
     }
 
+    //VMMV view logic or model logic or something
+    func add_semester() {
+        
+        //popup view asking for user input
+        //pickerview with two columns.
+            //SEMESTER - YEAR
+            //-------------------
+            //FALL        18
+            //SPRING      20
+            //...
+        //NEXT button at the bottom. 
+        //flips around to class_cv, says: there are no classes in this semester box. tap the plus to add one.
+        
+        print("add semester")
+    }
+    
+    func remove_semester() {
+        print("remove semester")
+    }
+    
+    func add_class() {
+        
+        //popup view asking for user input
+        //textfield asking for class name
+            //CLASS NAME
+        //pickeview with twocolumns 
+            //GRADE - CREDIT HOUR
+            //---------------------
+            //A+          4
+            //B+          3
+        //ADD button at the bottom
+        //view fades new class cell pops in
+        //GPA for semester updates. this is when I perform the logic of all classes adding up. do this for all semesters too.
+        print("add class")
+    }
+    
+    func remove_class() {
+        print("remove class")
+    }
+    
     //cv datasource and delegate
     
     //dataSource
@@ -198,6 +238,17 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
                 return header
             }
             return UICollectionReusableView()
+        case UICollectionElementKindSectionFooter:
+            let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "footer", for: indexPath) as! CVFooter
+            if collectionView == class_cv {
+                footer.plus_button.addTarget(self, action: #selector(self.add_class), for: .touchUpInside)
+                footer.minus_button.addTarget(self, action: #selector(self.remove_class), for: .touchUpInside)
+            } else if collectionView == semester_cv {
+                footer.plus_button.addTarget(self, action: #selector(self.add_semester), for: .touchUpInside)
+                footer.minus_button.addTarget(self, action: #selector(self.remove_semester), for: .touchUpInside)
+            }
+            footer.awakeFromNib()
+            return footer
         default:
             break
         }
@@ -211,7 +262,9 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         return .zero
     }
     
-    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 50)
+    }
     
     func SwitchView() {
         space0.animate(toText: "\(String(describing: self.model.semesters.count)) SEMESTERS")
@@ -219,6 +272,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             
         }
     }
+    
     
 
 

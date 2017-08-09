@@ -144,17 +144,17 @@ class CVHeader:UICollectionReusableView {
     var active:Bool = false
     override func awakeFromNib() {
         backBtn.setFAIcon(icon: FAType.FAArrowLeft, forState: .normal)
-//        backBtn.setTitleColor(UIColor.white, for: .normal)
-   
+        //        backBtn.setTitleColor(UIColor.white, for: .normal)
+        
         if !active {
             active = true
             addSubview(stack)
             stack_cons = stack.getConstraintsOfView(to: self)
             NSLayoutConstraint.activate(stack_cons)
             NSLayoutConstraint.activate([
-
+                
                 backBtn.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 1),
-
+                
                 ])
         }
     }
@@ -163,6 +163,55 @@ class CVHeader:UICollectionReusableView {
         
     }
 }
+
+class CVFooter:UICollectionReusableView {
+    
+    var plus_button:UIButton = UIButton()
+    var minus_button:UIButton = UIButton()
+    
+    var active:Bool = false
+    
+    override func awakeFromNib() {
+        if !active {
+            plus_button.frame = CGRect(x: 0, y: 0, width: self.frame.height, height: self.frame.height)
+            plus_button.setFAIcon(icon: FAType.FAPlus, forState: .normal)
+            let plus = UIBarButtonItem(customView: plus_button)
+            
+            minus_button.frame = CGRect(x: 0, y: 0, width: self.frame.height, height: self.frame.height)
+            minus_button.setFAIcon(icon: FAType.FAMinus, forState: .normal)
+            let minus = UIBarButtonItem(customView: minus_button)
+            
+            let flexspace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+            
+
+            
+            let toolbar = UIToolbar()
+            toolbar.barStyle = .blackOpaque
+            toolbar.layer.cornerRadius = 12
+            toolbar.layer.masksToBounds = true
+//            toolbar.setBackgroundImage(UIImage(),
+//                                            forToolbarPosition: .any,
+//                                            barMetrics: .default)
+//            toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
+            toolbar.translatesAutoresizingMaskIntoConstraints = false
+            toolbar.setItems([plus, flexspace, minus], animated: true)
+            self.addSubview(toolbar)
+            
+//            NSLayoutConstraint.activate(toolbar.getConstraintsOfView(to: self))
+            NSLayoutConstraint.activate([
+                toolbar.topAnchor.constraint(equalTo: self.topAnchor),
+                toolbar.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+                toolbar.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 30),
+                toolbar.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -30)
+            ])
+        }
+    }
+    
+    override func prepareForReuse() {
+        
+    }
+}
+
 
 
 class GPStackView:UIStackView {
