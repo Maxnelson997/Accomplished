@@ -23,6 +23,7 @@
 		7969A04E1F39271600923C68 /* GPFlipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7969A04D1F39271600923C68 /* GPFlipView.swift */; };
 		7969A0501F3932B500923C68 /* GPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7969A04F1F3932B500923C68 /* GPModel.swift */; };
 		7969A0521F3949DC00923C68 /* GPCellViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7969A0511F3949DC00923C68 /* GPCellViews.swift */; };
+		79EF888E1F3D19610025A838 /* NewClassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EF888D1F3D19610025A838 /* NewClassView.swift */; };
 		F6374B4AF59413361EBC7FFB /* Pods_college_gpa_calculator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 920210E14C150891BE5C0979 /* Pods_college_gpa_calculator.framework */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +70,7 @@
 		7969A04D1F39271600923C68 /* GPFlipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPFlipView.swift; sourceTree = "<group>"; };
 		7969A04F1F3932B500923C68 /* GPModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPModel.swift; sourceTree = "<group>"; };
 		7969A0511F3949DC00923C68 /* GPCellViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPCellViews.swift; sourceTree = "<group>"; };
+		79EF888D1F3D19610025A838 /* NewClassView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewClassView.swift; sourceTree = "<group>"; };
 		7DF77E45CBBF5F9019EDAAFB /* Pods-college-gpa-calculatorUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-college-gpa-calculatorUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-college-gpa-calculatorUITests/Pods-college-gpa-calculatorUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		8931DCF8F5C1C529EF1CF5AF /* Pods_college_gpa_calculatorUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_college_gpa_calculatorUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		920210E14C150891BE5C0979 /* Pods_college_gpa_calculator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_college_gpa_calculator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,6 +156,7 @@
 				79126E6E1F38CF55002D640C /* AppDelegate.swift */,
 				79126E701F38CF55002D640C /* MainController.swift */,
 				7942E68A1F3C1491007F54E9 /* NewSemesterView.swift */,
+				79EF888D1F3D19610025A838 /* NewClassView.swift */,
 				793C28381F397E4600C05C4F /* extension.swift */,
 				7969A04F1F3932B500923C68 /* GPModel.swift */,
 				7969A0511F3949DC00923C68 /* GPCellViews.swift */,
@@ -475,6 +478,7 @@
 				793C28391F397E4600C05C4F /* extension.swift in Sources */,
 				7969A04E1F39271600923C68 /* GPFlipView.swift in Sources */,
 				79126E771F38CF55002D640C /* college_gpa_calculator.xcdatamodeld in Sources */,
+				79EF888E1F3D19610025A838 /* NewClassView.swift in Sources */,
 				7969A04A1F3925F800923C68 /* GPLabel.swift in Sources */,
 				7942E68B1F3C1491007F54E9 /* NewSemesterView.swift in Sources */,
 				7969A0501F3932B500923C68 /* GPModel.swift in Sources */,

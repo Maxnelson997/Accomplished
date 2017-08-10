@@ -124,21 +124,49 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         model.semesters.append(new_semester)
         semester_cv.reloadData()
     }
+ 
+    func addClass(title: String, grade: String, hour: CGFloat) {
+        NSLayoutConstraint.deactivate(new_class_cons)
+        new_class_view.removeFromSuperview()
+        let new_class = semester_class(name: title, grade: grade, hours: hour, gpa: "--")
+        model.semesters[model.selected_semester_index].classes.append(new_class)
+        class_cv.reloadData()
+    }
     
     var new_semester_view:NewSemesterView = {
-       let p = NewSemesterView()
+        let p = NewSemesterView()
         p.translatesAutoresizingMaskIntoConstraints = false
-        p.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        
+        p.backgroundColor = UIColor.darkGray.withAlphaComponent(1)
         return p
     }()
+    
+    var new_class_view:NewClassView = {
+        let p = NewClassView()
+        p.translatesAutoresizingMaskIntoConstraints = false
+        p.backgroundColor = UIColor.darkGray.withAlphaComponent(1)
+        return p
+    }()
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        cell.transform = CGAffineTransform(scaleX: 0.7, y: 0.5)
+        cell.alpha = 0
+        
+        
+        UIView.animate(withDuration: 0.65, delay: 0, usingSpringWithDamping: 20, initialSpringVelocity: 20, options: .curveEaseIn, animations: {
+            cell.alpha = 1.0
+            //cell.layer.transform = CATransform3DIdentity
+            cell.transform = CGAffineTransform(scaleX: 1, y: 1)
+        }, completion: nil)
+        
+    }
     var new_semester_cons:[NSLayoutConstraint]!
+    var new_class_cons:[NSLayoutConstraint]!
     //VMMV view logic or model logic or something
     func add_semester() {
         new_semester_cons = new_semester_view.getConstraintsOfView(to: flipView.firstView)
         new_semester_view.delegate = self
         self.flipView.firstView.addSubview(new_semester_view)
         NSLayoutConstraint.activate(new_semester_cons)
+        new_semester_view.cv.reloadData()
         //popup view asking for user input
         //pickerview with two columns.
             //SEMESTER - YEAR
@@ -158,6 +186,11 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     
     func add_class() {
         
+        new_class_cons = new_class_view.getConstraintsOfView(to: flipView.secondView)
+        new_class_view.delegate = self
+        flipView.secondView.addSubview(new_class_view)
+        NSLayoutConstraint.activate(new_class_cons)
+        new_class_view.cv.reloadData()
         //popup view asking for user input
         //textfield asking for class name
             //CLASS NAME
