@@ -9,6 +9,21 @@
 import UIKit
 import Font_Awesome_Swift
 
+class empty_cell:UICollectionViewCell {
+
+    override func awakeFromNib() {
+//        let view = UIView()
+//        view.translatesAutoresizingMaskIntoConstraints = false
+//        view.backgroundColor = UIColor.purple
+//        addSubview(view)
+//        NSLayoutConstraint.activate(view.getConstraintsOfView(to: contentView))
+    }
+    override func prepareForReuse() {
+        
+    }
+
+}
+
 class semester_cell:UICollectionViewCell {
     
     var name:GPLabel = GPLabel()
@@ -284,6 +299,61 @@ class MaxView:UIView {
     
     override class var layerClass: AnyClass {
         return CAGradientLayer.self
+    }
+}
+
+
+class new_semester_header:UICollectionReusableView {
+
+    override func awakeFromNib() {
+
+    }
+    
+    override func prepareForReuse() {
+        
+    }
+}
+
+class new_semester_footer:UICollectionReusableView {
+    
+    var cancel_button:UIButton = UIButton()
+    var done_button:UIButton = UIButton()
+    
+    var active:Bool = false
+    
+    override func awakeFromNib() {
+        if !active {
+            cancel_button.frame = CGRect(x: 0, y: 0, width: self.frame.height, height: self.frame.height)
+            cancel_button.setFAIcon(icon: FAType.FAThumbsDown, forState: .normal)
+            let plus = UIBarButtonItem(customView: cancel_button)
+            
+            done_button.frame = CGRect(x: 0, y: 0, width: self.frame.height, height: self.frame.height)
+            done_button.setFAIcon(icon: FAType.FAThumbsUp, forState: .normal)
+            let minus = UIBarButtonItem(customView: done_button)
+            
+            let flexspace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+            
+            let toolbar = UIToolbar()
+            toolbar.barStyle = .blackOpaque
+            toolbar.layer.cornerRadius = 12
+            toolbar.layer.masksToBounds = true
+
+            toolbar.translatesAutoresizingMaskIntoConstraints = false
+            toolbar.setItems([plus, flexspace, minus], animated: true)
+            self.addSubview(toolbar)
+            
+            //            NSLayoutConstraint.activate(toolbar.getConstraintsOfView(to: self))
+            NSLayoutConstraint.activate([
+                toolbar.topAnchor.constraint(equalTo: self.topAnchor),
+                toolbar.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+                toolbar.leftAnchor.constraint(equalTo: self.leftAnchor),
+                toolbar.rightAnchor.constraint(equalTo: self.rightAnchor)
+                ])
+        }
+    }
+    
+    override func prepareForReuse() {
+        
     }
 }
 

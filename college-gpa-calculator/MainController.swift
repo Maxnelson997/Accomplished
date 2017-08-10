@@ -9,7 +9,7 @@
 import UIKit
 import Font_Awesome_Swift
 
-class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
+class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource, GPNewDataDelegate {
 
     let gpaLabel:GPLabel = GPLabel()
     let gpaBoxLabel:GPLabel = GPLabel()
@@ -117,9 +117,28 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         semester_cv.dataSource = self
     }
 
+    func addSemester(title:String) {
+        NSLayoutConstraint.deactivate(new_semester_cons)
+        new_semester_view.removeFromSuperview()
+        let new_semester = semester(name: title, gpa: "--", classes: [])
+        model.semesters.append(new_semester)
+        semester_cv.reloadData()
+    }
+    
+    var new_semester_view:NewSemesterView = {
+       let p = NewSemesterView()
+        p.translatesAutoresizingMaskIntoConstraints = false
+        p.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        
+        return p
+    }()
+    var new_semester_cons:[NSLayoutConstraint]!
     //VMMV view logic or model logic or something
     func add_semester() {
-        
+        new_semester_cons = new_semester_view.getConstraintsOfView(to: flipView.firstView)
+        new_semester_view.delegate = self
+        self.flipView.firstView.addSubview(new_semester_view)
+        NSLayoutConstraint.activate(new_semester_cons)
         //popup view asking for user input
         //pickerview with two columns.
             //SEMESTER - YEAR
