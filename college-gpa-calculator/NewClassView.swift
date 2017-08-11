@@ -16,6 +16,7 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
     let s_grades:[String] = ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"]
     let s_hours:[String] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
   
+    let model = GPModel.sharedInstance
     
     func resignText() {
         title_box.resignFirstResponder()
@@ -49,7 +50,7 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
     }()
     var header_label:GPLabel = {
         let l = GPLabel()
-        l.font = UIFont.systemFont(ofSize: 18)
+        l.font = UIFont.init(customFont: .MavenProRegular, withSize: 18)
         l.textAlignment = .center
         l.backgroundColor = .clear
         return l
@@ -57,7 +58,7 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
     
     var title_label:GPLabel = {
         let l = GPLabel()
-        l.font = UIFont.systemFont(ofSize: 18)
+        l.font = UIFont.init(customFont: .MavenProRegular, withSize: 18)
         l.textAlignment = .center
         l.backgroundColor = .clear
         l.text = "NAME: "
@@ -66,12 +67,12 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
     
     var title_box:UITextField = {
         let l = UITextField()
-        l.font = UIFont.systemFont(ofSize: 18)
+        l.font = UIFont.init(customFont: .MavenProRegular, withSize: 18)
         l.placeholder = "class name"
         l.textColor = .white
         l.layer.cornerRadius = 12
         l.layer.masksToBounds = true
-        l.attributedPlaceholder = NSAttributedString(string: "CLASS NAME", attributes: [NSForegroundColorAttributeName:UIColor.white.withAlphaComponent(0.5), NSFontAttributeName:UIFont.init(descriptor: UIFontDescriptor(fontAttributes: [UIFontDescriptorFamilyAttribute: "Helvetica"]), size: 18)])
+        l.attributedPlaceholder = NSAttributedString(string: "CLASS NAME", attributes: [NSForegroundColorAttributeName:UIColor.white.withAlphaComponent(0.5), NSFontAttributeName:UIFont.init(customFont: .MavenProRegular, withSize: 18)!])
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }()
@@ -168,15 +169,7 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
         
         type_pick.delegate = self
         type_pick.dataSource = self
-        
-        type_pick.selectRow(1, inComponent: 0, animated: true)
-        type_pick.selectRow(2, inComponent: 1, animated: true)
-        
-        selected_grade = s_grades[1]
-        selected_hour = s_hours[2]
-        
-        header_label.text = "grade: \(selected_grade)   hour: \(selected_hour)"
-        
+
         //popup view asking for user input
         //pickerview with two columns.
         //SEMESTER - YEAR
@@ -188,6 +181,30 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
         //flips around to class_cv, says: there are no classes in this semester box. tap the plus to add one.
         
         
+    }
+    
+    func load() {
+        
+        title_box.text = ""
+        var indexForGrade:Int = 1
+        var indexForHour:Int = 2
+        
+        if model.class_is_being_edited {
+            print(model.class_object_to_edit.grade)
+            print(String(describing: model.class_object_to_edit.hours!))
+            indexForGrade = s_grades.index(of: model.class_object_to_edit.grade)!
+            indexForHour = s_hours.index(of: String(describing: model.class_object_to_edit.hours!))!
+            
+            title_box.animate(toText: model.class_object_to_edit.name)
+        }
+        
+        type_pick.selectRow(indexForGrade, inComponent: 0, animated: true)
+        type_pick.selectRow(indexForHour, inComponent: 1, animated: true)
+        
+        selected_grade = s_grades[indexForGrade]
+        selected_hour = s_hours[indexForHour]
+        
+        header_label.text = "grade: \(selected_grade)   hour: \(selected_hour)"
     }
     
     fileprivate var type_pick:UIPickerView = {
@@ -230,7 +247,7 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
         } else {
             titleData = s_hours[row]
         }
-        let myTitle = NSAttributedString(string: titleData!, attributes: [NSFontAttributeName:UIFont.systemFont(ofSize: 15),NSForegroundColorAttributeName:UIColor.white])
+        let myTitle = NSAttributedString(string: titleData!, attributes: [NSFontAttributeName:UIFont.init(customFont: .MavenProRegular, withSize: 15)!,NSForegroundColorAttributeName:UIColor.white])
         return myTitle
     }
     
@@ -286,6 +303,7 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
     func cancel_class() {
         print("canceled adding class")
         self.removeFromSuperview()
+        model.class_is_being_edited = false
     }
     
     func add_class() {
@@ -297,7 +315,7 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
         if title_text.isEmpty {
             title_text = "new class"
         }
-        delegate.addClass(title: title_text, grade: selected_grade, hour: CGFloat((selected_hour as NSString).floatValue))
+        delegate.addClass(title: title_text, grade: selected_grade, hour: Int((selected_hour as NSString).intValue))
         self.removeFromSuperview()
         print("added class to semester")
     }

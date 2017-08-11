@@ -11,7 +11,7 @@ import Font_Awesome_Swift
 
 protocol GPNewDataDelegate {
     func addSemester(title:String)
-    func addClass(title:String, grade:String, hour:CGFloat)
+    func addClass(title:String, grade:String, hour:Int)
 }
 
 class NewSemesterView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
@@ -46,7 +46,7 @@ class NewSemesterView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIC
     }()
     var header_label:GPLabel = {
         let l = GPLabel()
-        l.font = UIFont.systemFont(ofSize: 18)
+        l.font = UIFont.init(customFont: .MavenProRegular, withSize: 18)
         l.textAlignment = .center
         l.backgroundColor = .clear
         return l
@@ -54,7 +54,7 @@ class NewSemesterView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIC
     
     var season_label:GPLabel = {
         let l = GPLabel()
-        l.font = UIFont.systemFont(ofSize: 18)
+        l.font = UIFont.init(customFont: .MavenProRegular, withSize: 18)
         l.textAlignment = .center
         l.backgroundColor = .clear
         l.text = "SEASON"
@@ -63,7 +63,7 @@ class NewSemesterView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIC
     
     var year_label:GPLabel = {
         let l = GPLabel()
-        l.font = UIFont.systemFont(ofSize: 18)
+        l.font = UIFont.init(customFont: .MavenProRegular, withSize: 18)
         l.textAlignment = .center
         l.backgroundColor = .clear
         l.text = "YEAR"
@@ -161,13 +161,7 @@ class NewSemesterView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIC
         type_pick.delegate = self
         type_pick.dataSource = self
 
-        type_pick.selectRow(2, inComponent: 0, animated: true)
-        type_pick.selectRow(16, inComponent: 1, animated: true)
-
-        selected_type = s_types[2]
-        selected_year = s_years[16]
-
-        header_label.text = "\(selected_type) \(selected_year)"
+   
         
         //popup view asking for user input
         //pickerview with two columns.
@@ -180,6 +174,16 @@ class NewSemesterView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIC
         //flips around to class_cv, says: there are no classes in this semester box. tap the plus to add one.
         
         
+    }
+    
+    func load() {
+        type_pick.selectRow(2, inComponent: 0, animated: true)
+        type_pick.selectRow(16, inComponent: 1, animated: true)
+        
+        selected_type = s_types[2]
+        selected_year = s_years[16]
+        
+        header_label.text = "\(selected_type) \(selected_year)"
     }
     
     fileprivate var type_pick:UIPickerView = {
@@ -222,7 +226,7 @@ class NewSemesterView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIC
         } else {
             titleData = s_years[row]
         }
-        let myTitle = NSAttributedString(string: titleData!, attributes: [NSFontAttributeName:UIFont.systemFont(ofSize: 15),NSForegroundColorAttributeName:UIColor.white])
+        let myTitle = NSAttributedString(string: titleData!, attributes: [NSFontAttributeName:UIFont.init(customFont: .MavenProRegular, withSize: 15)!,NSForegroundColorAttributeName:UIColor.white])
         return myTitle
     }
 
@@ -277,6 +281,7 @@ class NewSemesterView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIC
     }
     func cancel_semester() {
         print("canceled adding semester")
+
         self.removeFromSuperview()
     }
     

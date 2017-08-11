@@ -25,10 +25,13 @@ class GPModel {
     static let sharedInstance = GPModel()
     private init() {}
 
+    var class_is_being_edited:Bool = false
+    var class_being_edited:Int = 0
+    var class_object_to_edit:semester_class!
     var selected_semester_index:Int = 0
     var semesters:[semester] = [
-        semester(name: "FALL 17", gpa: "3.6", classes: [ semester_class(name: "Algorithms", grade: "A", hours: 3, gpa: "4.0"), semester_class(name: "Comp Organization", grade: "B+", hours: 3, gpa: "3.20")]),
-        semester(name: "SPRING 17", gpa: "3.14", classes: [semester_class(name: "Math", grade: "A+", hours: 5, gpa: "3.6"), semester_class(name: "English", grade: "A-", hours: 3, gpa: "4.00"),semester_class(name: "Math", grade: "A+", hours: 5, gpa: "3.6"), semester_class(name: "English", grade: "A-", hours: 3, gpa: "4.00")])
+//        semester(name: "FALL 17", gpa: "3.6", classes: [ semester_class(name: "Algorithms", grade: "A", hours: 3, gpa: "4.0"), semester_class(name: "Comp Organization", grade: "B+", hours: 3, gpa: "3.20")]),
+//        semester(name: "SPRING 17", gpa: "3.14", classes: [semester_class(name: "Math", grade: "A+", hours: 5, gpa: "3.6"), semester_class(name: "English", grade: "A-", hours: 3, gpa: "4.00"),semester_class(name: "Math", grade: "A+", hours: 5, gpa: "3.6"), semester_class(name: "English", grade: "A-", hours: 3, gpa: "4.00")])
     ]
 }
 
@@ -41,18 +44,18 @@ struct semester {
 struct semester_class {
     var name:String!
     var grade:String!
-    var hours:CGFloat!
+    var hours:Int!
     var gpa:String!
     
-    init(name: String, grade: String, hours:CGFloat, gpa:String) {
+    init(name: String, grade: String, hours:Int, gpa:String) {
         self.name = name
         self.grade = grade
         self.hours = hours
-        self.gpa = String(describing: calculate_class_gpa(grade: grade, hour: hours))
+        self.gpa = String(describing: calculate_class_gpa(grade: grade, hour: Double(hours)))
     }
 }
 
-let letters:[String:CGFloat] = [
+let letters:[String:Double] = [
     "A+":4.0,
     "A":4.0,
     "A-":3.7,
@@ -67,8 +70,8 @@ let letters:[String:CGFloat] = [
     "D-":0.70,
     "F":0]
 
-func calculate_class_gpa(grade:String, hour:CGFloat) -> CGFloat {
-    let grade_value:CGFloat = letters[grade]!
+func calculate_class_gpa(grade:String, hour:Double) -> Double {
+    let grade_value:Double = letters[grade]!
 //    let points = grade_value * hour
 //    let gpa = points/hour
 //    return gpa

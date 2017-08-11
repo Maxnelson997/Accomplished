@@ -26,8 +26,18 @@ class empty_cell:UICollectionViewCell {
 
 class semester_cell:UICollectionViewCell {
     
-    var name:GPLabel = GPLabel()
-    var gpa:GPLabel = GPLabel()
+    var name:GPLabel = {
+        let l = GPLabel()
+        l.font = UIFont.init(customFont: .MavenProBold, withSize: 15)
+        l.backgroundColor = .clear
+        return l
+    }()
+    var gpa:GPLabel = {
+        let l = GPLabel()
+        l.font = UIFont.init(customFont: .MavenProBold, withSize: 25)
+        l.backgroundColor = .clear
+        return l
+    }()
     
     fileprivate lazy var stack:GPStackView = {
         let s = GPStackView(arrangedSubviews: [self.name, self.gpa])
@@ -43,8 +53,8 @@ class semester_cell:UICollectionViewCell {
     
     
     override func awakeFromNib() {
-        name.backgroundColor = .clear
-        gpa.backgroundColor = .clear
+        
+
         if !exists {
             contentView.addSubview(stack)
             stack_cons = [

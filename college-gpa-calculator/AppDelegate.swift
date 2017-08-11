@@ -24,6 +24,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         window?.rootViewController = main_controller
+        
+        for family: String in UIFont.familyNames
+        {
+            print("--\(family)")
+            for names: String in UIFont.fontNames(forFamilyName: family)
+            {
+                print("---- \(names)")
+            }
+        }
         return true
     }
 

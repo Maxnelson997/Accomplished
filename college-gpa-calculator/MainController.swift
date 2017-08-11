@@ -12,7 +12,11 @@ import Font_Awesome_Swift
 class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource, GPNewDataDelegate {
 
     let gpaLabel:GPLabel = GPLabel()
-    let gpaBoxLabel:GPLabel = GPLabel()
+    let gpaBoxLabel:GPLabel = {
+        let g = GPLabel()
+        g.font = UIFont.init(customFont: .MavenProBold, withSize: 25)
+        return g
+    }()
     
     let space0:GPLabel = GPLabel()
     
@@ -26,7 +30,8 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         layout.sectionFootersPinToVisibleBounds = true
         layout.sectionHeadersPinToVisibleBounds = true
-        layout.minimumInteritemSpacing = 10
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(semester_cell.self, forCellWithReuseIdentifier: "semester_cell")
@@ -39,9 +44,10 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     let class_cv:UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        layout.minimumInteritemSpacing = 10
         layout.sectionFootersPinToVisibleBounds = true
         layout.sectionHeadersPinToVisibleBounds = true
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(class_cell.self, forCellWithReuseIdentifier: "class_cell")
@@ -51,18 +57,28 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         cv.backgroundColor = .clear
         return cv
     }()
-    
+
     fileprivate lazy var stack:UIStackView = {
-       let s = UIStackView(arrangedSubviews: [self.gpaLabel, self.gpaBoxLabel, self.space0, self.flipView])
+        let s = UIStackView(arrangedSubviews: [self.topStack, self.flipView])
         s.translatesAutoresizingMaskIntoConstraints = false
         s.backgroundColor = .clear
-//        s.layerColors = [ UIColor(rgb: 0xFFFFFF).cgColor, UIColor(rgb: 0x11C2D3).cgColor ]
+        //        s.layerColors = [ UIColor(rgb: 0xFFFFFF).cgColor, UIColor(rgb: 0x11C2D3).cgColor ]
         s.axis = .vertical
+        return s
+    }()
+    
+    fileprivate lazy var topStack:UIStackView = {
+        let s = UIStackView(arrangedSubviews: [self.gpaLabel, self.space0, self.gpaBoxLabel])
+        s.translatesAutoresizingMaskIntoConstraints = false
+        s.backgroundColor = .clear
+        //        s.layerColors = [ UIColor(rgb: 0xFFFFFF).cgColor, UIColor(rgb: 0x11C2D3).cgColor ]
+        s.axis = .horizontal
         return s
     }()
     
     var gpa_cons:[NSLayoutConstraint]!
     var stack_cons:[NSLayoutConstraint]!
+    var top_stack_cons:[NSLayoutConstraint]!
     var cv_cons:[NSLayoutConstraint]!
     
     override func viewDidLoad() {
@@ -74,12 +90,22 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         gpaLabel.text = "TOTAL GPA"
         gpaLabel.backgroundColor = .clear
         gpaLabel.textColor = UIColor.darkGray
-        gpaBoxLabel.text = "3.14"
+        gpaBoxLabel.text = "0.00"
+        gpaBoxLabel.textColor = UIColor.darkGray
         gpaBoxLabel.layer.cornerRadius = 12
         gpaBoxLabel.layer.masksToBounds = true
         
         view.backgroundColor = .white
         view.addSubview(stack)
+        
+        top_stack_cons = [
+            gpaLabel.widthAnchor.constraint(equalTo: topStack.widthAnchor, multiplier: 0.5),
+            gpaBoxLabel.widthAnchor.constraint(equalTo: topStack.widthAnchor, multiplier: 0.5),
+            
+            gpaLabel.heightAnchor.constraint(equalTo: topStack.heightAnchor, multiplier: 0.5),
+            space0.heightAnchor.constraint(equalTo: topStack.heightAnchor, multiplier: 0.5),
+            space0.widthAnchor.constraint(equalTo: topStack.heightAnchor, multiplier: 0.5),
+        ]
 
         stack_cons = [
             stack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
@@ -87,9 +113,8 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             stack.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
             stack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
             
-            gpaLabel.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.1),
-            gpaBoxLabel.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.1),
-            space0.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.1),
+            topStack.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.2),
+
             flipView.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.7)
         ]
         
@@ -111,6 +136,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             class_cv.bottomAnchor.constraint(equalTo: flipView.secondView.bottomAnchor),
         ]
         
+        NSLayoutConstraint.activate(top_stack_cons)
         NSLayoutConstraint.activate(stack_cons)
         NSLayoutConstraint.activate(cv_cons)
 
@@ -123,15 +149,25 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         new_semester_view.removeFromSuperview()
         let new_semester = semester(name: title, gpa: "--", classes: [])
         model.semesters.append(new_semester)
+        space0.animate(toText: "\(String(describing: self.model.semesters.count)) SEMESTERS")
         semester_cv.reloadData()
     }
  
-    func addClass(title: String, grade: String, hour: CGFloat) {
+    func addClass(title: String, grade: String, hour: Int) {
         NSLayoutConstraint.deactivate(new_class_cons)
         new_class_view.removeFromSuperview()
         let new_class = semester_class(name: title, grade: grade, hours: hour, gpa: "--")
-        model.semesters[model.selected_semester_index].classes.append(new_class)
+        if model.class_is_being_edited {
+            model.semesters[model.selected_semester_index].classes[model.class_being_edited] = new_class
+            model.class_is_being_edited = false
+        } else {
+            model.semesters[model.selected_semester_index].classes.append(new_class)
+        }
+        
+        gpaBoxLabel.animate(toText: viewModel.calculate_semester_gpa())
+        model.semesters[model.selected_semester_index].gpa = viewModel.calculate_semester_gpa()
         class_cv.reloadData()
+        semester_cv.reloadData()
     }
     
     
@@ -172,6 +208,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         self.flipView.firstView.addSubview(new_semester_view)
         NSLayoutConstraint.activate(new_semester_cons)
         new_semester_view.cv.reloadData()
+        new_semester_view.load()
         //popup view asking for user input
         //pickerview with two columns.
             //SEMESTER - YEAR
@@ -190,12 +227,14 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     }
     
     func add_class() {
-        
         new_class_cons = new_class_view.getConstraintsOfView(to: flipView.secondView)
         new_class_view.delegate = self
         flipView.secondView.addSubview(new_class_view)
         NSLayoutConstraint.activate(new_class_cons)
         new_class_view.cv.reloadData()
+
+        new_class_view.load()
+
         //popup view asking for user input
         //textfield asking for class name
             //CLASS NAME
@@ -256,19 +295,26 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == semester_cv {
             model.selected_semester_index = indexPath.item
-            if class_cv.delegate == nil {
-                class_cv.delegate = self
-                class_cv.dataSource = self
-            } else {
-                class_cv.reloadData()
-            }
+
             space0.animate(toText: model.semesters[model.selected_semester_index].name)
-            self.gpaBoxLabel.text = String(describing: viewModel.calculate_semester_gpa())
+            gpaBoxLabel.animate(toText: viewModel.calculate_semester_gpa())
+            gpaLabel.animate(toText: "SEMESTER GPA")
+            self.class_cv.alpha = 0
             flipView.switchViews {
-                
+                self.class_cv.alpha = 1
+                if self.class_cv.delegate == nil {
+                    self.class_cv.delegate = self
+                    self.class_cv.dataSource = self
+                } else {
+                    self.class_cv.reloadData()
+                }
             }
         } else {
-            
+            //edit a class cell
+            model.class_is_being_edited = true
+            model.class_being_edited = indexPath.item
+            model.class_object_to_edit = model.semesters[model.selected_semester_index].classes[indexPath.item]
+            add_class()
         }
     }
 
@@ -276,11 +322,11 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     //flow
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == semester_cv {
-            let box_size = collectionView.frame.width/2 - 5 - 20
+            let box_size = collectionView.frame.width/2 - 20
             return CGSize(width: box_size, height: box_size)
         } else {
-            let box_size = collectionView.frame.width - 5 - 20
-            return CGSize(width: box_size, height: box_size/3)
+            let box_size = collectionView.frame.width - 20
+            return CGSize(width: box_size, height: box_size/3.5)
         }
     }
 
@@ -326,7 +372,8 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     
     func SwitchView() {
         space0.animate(toText: "\(String(describing: self.model.semesters.count)) SEMESTERS")
-        gpaBoxLabel.text = String(describing: viewModel.calculate_all_semester_gpa())
+        gpaBoxLabel.animate(toText: String(describing: viewModel.calculate_all_semester_gpa()))
+        gpaLabel.animate(toText: "TOTAL GPA")
         flipView.switchViews {
             
         }

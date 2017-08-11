@@ -33,6 +33,7 @@ class GPLabel: UILabel {
         self.textColor = .white
         self.adjustsFontSizeToFitWidth = true
         self.adjustsFontForContentSizeCategory = true
+        self.font = UIFont.init(customFont: .MavenProRegular, withSize: 18)
         
     }
     

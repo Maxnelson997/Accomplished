@@ -11,7 +11,7 @@ import UIKit
 class ViewModel {
     let model = GPModel.sharedInstance
     
-    let letters:[String:CGFloat] = [
+    let letters:[String:Double] = [
         "A+":4.0,
         "A":4.0,
         "A-":3.7,
@@ -26,44 +26,56 @@ class ViewModel {
         "D-":0.70,
         "F":0]
     
-    func calculate_class_gpa(grade:String, hour:CGFloat) -> CGFloat {
-        let grade_value:CGFloat = letters[grade]!
-        let gpa = grade_value/hour
-        return gpa
+    func calculate_class_gpa(grade:String, hour:Int) -> String {
+        let grade_value:Double = letters[grade]!
+        let gpa = grade_value/Double(hour)
+        var r = String(format: "%.2f", gpa)
+        if r == "nan" {
+            r = "0.00"
+        }
+        return r
     }
     
-    func calculate_semester_gpa() -> CGFloat {
+    func calculate_semester_gpa() -> String {
         
         let classes = model.semesters[model.selected_semester_index].classes
-        var points:CGFloat = 0.0
-        var hours_attempted:CGFloat = 0.0
+        var points:Double = 0.0
+        var hours_attempted:Double = 0.0
         var grade_points = classes.map { letters[$0.grade]! }
         var hours = classes.map { $0.hours! }
-        _ = classes.map { hours_attempted += $0.hours! }
+        _ = classes.map { hours_attempted += Double($0.hours!) }
         for i in 0 ..< grade_points.count {
-            points += grade_points[i] * hours[i]
+            points += grade_points[i] * Double(hours[i])
         }
         print("\npoints \(points)")
         print("hours attempted: \(hours_attempted)\n")
         let gpa = points / hours_attempted
-        return gpa
+        var r = String(format: "%.2f", gpa)
+        if r == "nan" {
+            r = "0.00"
+        }
+        return r
     }
     
-    func calculate_all_semester_gpa() -> CGFloat {
-        var points:CGFloat = 0.0
-        var hours_attempted:CGFloat = 0.0
+    func calculate_all_semester_gpa() -> String {
+        var points:Double = 0.0
+        var hours_attempted:Double = 0.0
         for i in 0 ..< model.semesters.count {
             let classes = model.semesters[i].classes
             var grade_points = classes.map { letters[$0.grade]! }
             var hours = classes.map { $0.hours! }
-            _ = classes.map { hours_attempted += $0.hours! }
+            _ = classes.map { hours_attempted += Double($0.hours!) }
             for i in 0 ..< grade_points.count {
-                points += grade_points[i] * hours[i]
+                points += grade_points[i] * Double(hours[i])
             }
         }
         print("\npoints \(points)")
         print("hours attempted: \(hours_attempted)\n")
         let gpa = points / hours_attempted
-        return gpa
+        var r = String(format: "%.2f", gpa)
+        if r == "nan" {
+            r = "0.00"
+        }
+        return r
     }
 }

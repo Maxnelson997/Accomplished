@@ -8,6 +8,20 @@
 
 import UIKit
 
+enum CustomFont: String {
+    case MavenProRegular = "MavenPro-Regular"
+    case MavenProBlack = "MavenPro-Black"
+    case MavenProBold = "MavenPro-Bold"
+    case MavenProMedium = "MavenPro-Medium"
+}
+
+extension UIFont {
+    convenience init?(customFont: CustomFont, withSize size: CGFloat) {
+        self.init(name: customFont.rawValue, size: size)
+    }
+}
+
+
 extension UIColor {
     convenience init(red: Int, green: Int, blue: Int) {
         assert(red >= 0 && red <= 255, "Invalid red component")
@@ -37,6 +51,19 @@ extension UIView {
 }
 
 extension UILabel {
+    func animate(toText:String) {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.alpha = 0
+        }, completion: { finished in
+            self.text = toText
+            UIView.animate(withDuration: 0.35, animations: {
+                self.alpha = 1
+            })
+        })
+    }
+}
+
+extension UITextField {
     func animate(toText:String) {
         UIView.animate(withDuration: 0.3, animations: {
             self.alpha = 0
