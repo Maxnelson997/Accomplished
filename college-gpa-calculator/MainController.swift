@@ -11,14 +11,25 @@ import Font_Awesome_Swift
 
 class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource, GPNewDataDelegate {
 
-    let gpaLabel:GPLabel = GPLabel()
+    let gpaLabel:GPLabel = {
+        let g = GPLabel()
+        g.font = UIFont.init(customFont: .MavenProBold, withSize: 20)
+        return g
+    }()
+    
     let gpaBoxLabel:GPLabel = {
         let g = GPLabel()
-        g.font = UIFont.init(customFont: .MavenProBold, withSize: 25)
+        g.font = UIFont.init(customFont: .MavenProBold, withSize: 65)
         return g
     }()
     
     let space0:GPLabel = GPLabel()
+    
+    let infoLabel:GPLabel = {
+        let g = GPLabel()
+        g.font = UIFont.init(customFont: .MavenProBold, withSize: 20)
+        return g
+    }()
     
     let model:GPModel = GPModel.sharedInstance
     let viewModel:ViewModel = ViewModel()
@@ -59,7 +70,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     }()
 
     fileprivate lazy var stack:UIStackView = {
-        let s = UIStackView(arrangedSubviews: [self.topStack, self.flipView])
+        let s = UIStackView(arrangedSubviews: [self.topStack, self.space0, self.flipView])
         s.translatesAutoresizingMaskIntoConstraints = false
         s.backgroundColor = .clear
         //        s.layerColors = [ UIColor(rgb: 0xFFFFFF).cgColor, UIColor(rgb: 0x11C2D3).cgColor ]
@@ -68,7 +79,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     }()
     
     fileprivate lazy var topStack:UIStackView = {
-        let s = UIStackView(arrangedSubviews: [self.gpaLabel, self.space0, self.gpaBoxLabel])
+        let s = UIStackView(arrangedSubviews: [self.labelStack, self.gpaBoxLabel])
         s.translatesAutoresizingMaskIntoConstraints = false
         s.backgroundColor = .clear
         //        s.layerColors = [ UIColor(rgb: 0xFFFFFF).cgColor, UIColor(rgb: 0x11C2D3).cgColor ]
@@ -76,16 +87,27 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         return s
     }()
     
+    fileprivate lazy var labelStack:UIStackView = {
+        let s = UIStackView(arrangedSubviews: [self.gpaLabel, self.infoLabel])
+        s.translatesAutoresizingMaskIntoConstraints = false
+        s.backgroundColor = .clear
+        //        s.layerColors = [ UIColor(rgb: 0xFFFFFF).cgColor, UIColor(rgb: 0x11C2D3).cgColor ]
+        s.axis = .vertical
+        return s
+    }()
+    
     var gpa_cons:[NSLayoutConstraint]!
     var stack_cons:[NSLayoutConstraint]!
     var top_stack_cons:[NSLayoutConstraint]!
+    var label_stack_cons:[NSLayoutConstraint]!
     var cv_cons:[NSLayoutConstraint]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = MaxView(frame: UIScreen.main.bounds)
-        space0.textColor = UIColor.darkGray
-        space0.text = "SEMESTERS"
+        infoLabel.textColor = UIColor.darkGray
+        infoLabel.text = "SEMESTERS"
+        infoLabel.backgroundColor = .clear
         space0.backgroundColor = .clear
         gpaLabel.text = "TOTAL GPA"
         gpaLabel.backgroundColor = .clear
@@ -98,13 +120,14 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         view.backgroundColor = .white
         view.addSubview(stack)
         
+        label_stack_cons = [
+            gpaLabel.heightAnchor.constraint(equalTo: labelStack.heightAnchor, multiplier: 0.5),
+            infoLabel.heightAnchor.constraint(equalTo: labelStack.heightAnchor, multiplier: 0.5),
+        ]
+        
         top_stack_cons = [
-            gpaLabel.widthAnchor.constraint(equalTo: topStack.widthAnchor, multiplier: 0.5),
+            labelStack.widthAnchor.constraint(equalTo: topStack.widthAnchor, multiplier: 0.5),
             gpaBoxLabel.widthAnchor.constraint(equalTo: topStack.widthAnchor, multiplier: 0.5),
-            
-            gpaLabel.heightAnchor.constraint(equalTo: topStack.heightAnchor, multiplier: 0.5),
-            space0.heightAnchor.constraint(equalTo: topStack.heightAnchor, multiplier: 0.5),
-            space0.widthAnchor.constraint(equalTo: topStack.heightAnchor, multiplier: 0.5),
         ]
 
         stack_cons = [
@@ -114,8 +137,8 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             stack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
             
             topStack.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.2),
-
-            flipView.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.7)
+            space0.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.05),
+            flipView.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.75)
         ]
         
         flipView.firstView.addSubview(semester_cv)
@@ -136,6 +159,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             class_cv.bottomAnchor.constraint(equalTo: flipView.secondView.bottomAnchor),
         ]
         
+        NSLayoutConstraint.activate(label_stack_cons)
         NSLayoutConstraint.activate(top_stack_cons)
         NSLayoutConstraint.activate(stack_cons)
         NSLayoutConstraint.activate(cv_cons)
@@ -149,7 +173,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         new_semester_view.removeFromSuperview()
         let new_semester = semester(name: title, gpa: "--", classes: [])
         model.semesters.append(new_semester)
-        space0.animate(toText: "\(String(describing: self.model.semesters.count)) SEMESTERS")
+        infoLabel.animate(toText: "\(String(describing: self.model.semesters.count)) SEMESTERS")
         semester_cv.reloadData()
     }
  
@@ -296,7 +320,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         if collectionView == semester_cv {
             model.selected_semester_index = indexPath.item
 
-            space0.animate(toText: model.semesters[model.selected_semester_index].name)
+            infoLabel.animate(toText: model.semesters[model.selected_semester_index].name)
             gpaBoxLabel.animate(toText: viewModel.calculate_semester_gpa())
             gpaLabel.animate(toText: "SEMESTER GPA")
             self.class_cv.alpha = 0
@@ -326,7 +350,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             return CGSize(width: box_size, height: box_size)
         } else {
             let box_size = collectionView.frame.width - 20
-            return CGSize(width: box_size, height: box_size/3.5)
+            return CGSize(width: box_size, height: box_size/3)
         }
     }
 
@@ -361,7 +385,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         if collectionView == class_cv {
-            return CGSize(width: collectionView.frame.width, height: 50)
+            return CGSize(width: collectionView.frame.width, height: 100)
         }
         return .zero
     }
@@ -371,7 +395,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     }
     
     func SwitchView() {
-        space0.animate(toText: "\(String(describing: self.model.semesters.count)) SEMESTERS")
+        infoLabel.animate(toText: "\(String(describing: self.model.semesters.count)) SEMESTERS")
         gpaBoxLabel.animate(toText: String(describing: viewModel.calculate_all_semester_gpa()))
         gpaLabel.animate(toText: "TOTAL GPA")
         flipView.switchViews {

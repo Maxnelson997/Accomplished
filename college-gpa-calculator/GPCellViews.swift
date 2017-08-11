@@ -34,7 +34,7 @@ class semester_cell:UICollectionViewCell {
     }()
     var gpa:GPLabel = {
         let l = GPLabel()
-        l.font = UIFont.init(customFont: .MavenProBold, withSize: 25)
+        l.font = UIFont.init(customFont: .MavenProBold, withSize: 35)
         l.backgroundColor = .clear
         return l
     }()
@@ -50,11 +50,7 @@ class semester_cell:UICollectionViewCell {
     
     var exists:Bool = false
 
-    
-    
     override func awakeFromNib() {
-        
-
         if !exists {
             contentView.addSubview(stack)
             stack_cons = [
@@ -84,12 +80,31 @@ class semester_cell:UICollectionViewCell {
 
 class class_cell:UICollectionViewCell {
     
-    var name:GPLabel = GPLabel()
-    var grade:GPLabel = GPLabel()
-    var hours:GPLabel = GPLabel()
-    var gpa:GPLabel = GPLabel()
+    var name:GPLabel = {
+        let g = GPLabel()
+        g.font = UIFont.init(customFont: .MavenProBold, withSize: 25)
+        g.textAlignment = .center
+        return g
+    }()
+    var grade:GPLabel = {
+        let g = GPLabel()
+        g.font = UIFont.init(customFont: .MavenProBold, withSize: 20)
+        g.textAlignment = .center
+        return g
+    }()
+    var hours:GPLabel = {
+        let g = GPLabel()
+        g.font = UIFont.init(customFont: .MavenProBold, withSize: 20)
+        g.textAlignment = .center
+        return g
+    }()
+    var gpa:GPLabel = {
+        let g = GPLabel()
+        g.font = UIFont.init(customFont: .MavenProBold, withSize: 20)
+        g.textAlignment = .center
+        return g
+    }()
     
-
     fileprivate lazy var stack:UIStackView = {
         let s = UIStackView(arrangedSubviews: [self.grade, self.hours, self.gpa])
         s.translatesAutoresizingMaskIntoConstraints = false
@@ -109,7 +124,6 @@ class class_cell:UICollectionViewCell {
     var name_cons:[NSLayoutConstraint]!
     var exists:Bool = false
 
-    
     override func awakeFromNib() {
         self.layer.masksToBounds = true
         self.layer.cornerRadius = 12
@@ -157,8 +171,37 @@ class class_cell:UICollectionViewCell {
 class CVHeader:UICollectionReusableView {
     
     var backBtn = UIButton(type: .custom)
+    let grade:GPLabel = {
+        let g = GPLabel()
+        g.font = UIFont.init(customFont: .MavenProRegular, withSize: 15)
+        g.text = "GRADE"
+        g.textAlignment = .center
+        return g
+    }()
+    let hour:GPLabel = {
+        let g = GPLabel()
+        g.font = UIFont.init(customFont: .MavenProRegular, withSize: 15)
+        g.text = "HOURS"
+        g.textAlignment = .center
+        return g
+    }()
+    let gpa:GPLabel = {
+        let g = GPLabel()
+        g.font = UIFont.init(customFont: .MavenProRegular, withSize: 15)
+        g.text = "GPA"
+        g.textAlignment = .center
+        return g
+    }()
+    
+    fileprivate lazy var info_stack:UIStackView = {
+        let s = UIStackView(arrangedSubviews: [self.grade, self.hour, self.gpa])
+        s.translatesAutoresizingMaskIntoConstraints = false
+        s.axis = .horizontal
+        return s
+    }()
+    
     fileprivate lazy var stack:UIStackView = {
-        let s = UIStackView(arrangedSubviews: [self.backBtn])
+        let s = UIStackView(arrangedSubviews: [self.backBtn, self.info_stack])
         s.translatesAutoresizingMaskIntoConstraints = false
         s.axis = .vertical
         return s
@@ -178,7 +221,12 @@ class CVHeader:UICollectionReusableView {
             NSLayoutConstraint.activate(stack_cons)
             NSLayoutConstraint.activate([
                 
-                backBtn.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 1),
+                grade.widthAnchor.constraint(equalTo: info_stack.widthAnchor, multiplier: 1/3),
+                hour.widthAnchor.constraint(equalTo: info_stack.widthAnchor, multiplier: 1/3),
+                gpa.widthAnchor.constraint(equalTo: info_stack.widthAnchor, multiplier: 1/3),
+                
+                backBtn.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.5),
+                info_stack.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.5)
                 
                 ])
         }
