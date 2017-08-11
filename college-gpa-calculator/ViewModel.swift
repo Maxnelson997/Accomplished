@@ -37,24 +37,26 @@ class ViewModel {
     }
     
     func calculate_semester_gpa() -> String {
-        
-        let classes = model.semesters[model.selected_semester_index].classes
-        var points:Double = 0.0
-        var hours_attempted:Double = 0.0
-        var grade_points = classes.map { letters[$0.grade]! }
-        var hours = classes.map { $0.hours! }
-        _ = classes.map { hours_attempted += Double($0.hours!) }
-        for i in 0 ..< grade_points.count {
-            points += grade_points[i] * Double(hours[i])
+        if !model.semesters.isEmpty {
+            let classes = model.semesters[model.selected_semester_index].classes
+            var points:Double = 0.0
+            var hours_attempted:Double = 0.0
+            var grade_points = classes.map { letters[$0.grade]! }
+            var hours = classes.map { $0.hours! }
+            _ = classes.map { hours_attempted += Double($0.hours!) }
+            for i in 0 ..< grade_points.count {
+                points += grade_points[i] * Double(hours[i])
+            }
+            print("\npoints \(points)")
+            print("hours attempted: \(hours_attempted)\n")
+            let gpa = points / hours_attempted
+            var r = String(format: "%.2f", gpa)
+            if r == "nan" {
+                r = "0.00"
+            }
+            return r
         }
-        print("\npoints \(points)")
-        print("hours attempted: \(hours_attempted)\n")
-        let gpa = points / hours_attempted
-        var r = String(format: "%.2f", gpa)
-        if r == "nan" {
-            r = "0.00"
-        }
-        return r
+        return "--"
     }
     
     func calculate_all_semester_gpa() -> String {

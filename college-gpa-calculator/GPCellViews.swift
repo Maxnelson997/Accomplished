@@ -30,14 +30,14 @@ class semester_cell:UICollectionViewCell {
         let l = GPLabel()
         l.font = UIFont.init(customFont: .MavenProBold, withSize: 15)
         l.backgroundColor = .clear
-        l.isUserInteractionEnabled = false
+
         return l
     }()
     var gpa:GPLabel = {
         let l = GPLabel()
         l.font = UIFont.init(customFont: .MavenProBold, withSize: 35)
         l.backgroundColor = .clear
-        l.isUserInteractionEnabled = false
+
         return l
     }()
     
@@ -45,7 +45,7 @@ class semester_cell:UICollectionViewCell {
         let s = GPStackView(arrangedSubviews: [self.name, self.gpa])
         s.translatesAutoresizingMaskIntoConstraints = false
         s.axis = .vertical
-        s.isUserInteractionEnabled = false
+
         return s
     }()
     
@@ -54,7 +54,9 @@ class semester_cell:UICollectionViewCell {
     var exists:Bool = false
 
     override func awakeFromNib() {
-        self.isUserInteractionEnabled = true
+
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = 12
         if !exists {
             contentView.addSubview(stack)
             stack_cons = [
@@ -247,47 +249,72 @@ class CVFooter:UICollectionReusableView {
     
     var plus_button:UIButton = UIButton()
     var minus_button:UIButton = UIButton()
+    var cancel_button:UIButton = UIButton()
+
+    fileprivate var plus:UIBarButtonItem!
+    fileprivate var minus:UIBarButtonItem!
+    fileprivate var flexspace:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    fileprivate let toolbar = UIToolbar()
+    
+    fileprivate var cancel:UIBarButtonItem!
     
     var active:Bool = false
+    var is_editing:Bool = false
+    var cons:Bool = false
+    
+    var toolbar_cons:[NSLayoutConstraint]!
     
     override func awakeFromNib() {
         if !active {
             plus_button.frame = CGRect(x: 0, y: 0, width: self.frame.height, height: self.frame.height)
             plus_button.setFAIcon(icon: FAType.FAPlus, forState: .normal)
-            let plus = UIBarButtonItem(customView: plus_button)
+            plus = UIBarButtonItem(customView: plus_button)
             
             minus_button.frame = CGRect(x: 0, y: 0, width: self.frame.height, height: self.frame.height)
             minus_button.setFAIcon(icon: FAType.FAMinus, forState: .normal)
-            let minus = UIBarButtonItem(customView: minus_button)
+            minus = UIBarButtonItem(customView: minus_button)
             
-            let flexspace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-            
-
-            
-            let toolbar = UIToolbar()
+            toolbar.setItems([plus, flexspace, minus], animated: true)
             toolbar.barStyle = .blackOpaque
             toolbar.layer.cornerRadius = 12
             toolbar.layer.masksToBounds = true
-//            toolbar.setBackgroundImage(UIImage(),
-//                                            forToolbarPosition: .any,
-//                                            barMetrics: .default)
-//            toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
+            //            toolbar.setBackgroundImage(UIImage(),
+            //                                            forToolbarPosition: .any,
+            //                                            barMetrics: .default)
+            //            toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
             toolbar.translatesAutoresizingMaskIntoConstraints = false
-            toolbar.setItems([plus, flexspace, minus], animated: true)
-            self.addSubview(toolbar)
-            
-//            NSLayoutConstraint.activate(toolbar.getConstraintsOfView(to: self))
-            NSLayoutConstraint.activate([
-                toolbar.topAnchor.constraint(equalTo: self.topAnchor),
-                toolbar.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-                toolbar.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 30),
-                toolbar.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -30)
-            ])
+            if !cons {
+                cons = true
+                self.addSubview(toolbar)
+                //            NSLayoutConstraint.activate(toolbar.getConstraintsOfView(to: self))
+                toolbar_cons = [
+                    toolbar.topAnchor.constraint(equalTo: self.topAnchor),
+                    toolbar.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+                    toolbar.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 30),
+                    toolbar.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -30)
+                ]
+                NSLayoutConstraint.activate(toolbar_cons)
+            }
+
+            active = true
         }
+        
+
+        if is_editing {
+            cancel_button.frame = CGRect(x: 0, y: 0, width: self.frame.height, height: self.frame.height)
+            cancel_button.setFAIcon(icon: FAType.FACode, forState: .normal)
+            cancel = UIBarButtonItem(customView: cancel_button)
+            toolbar.setItems([flexspace, cancel, flexspace], animated: true)
+            is_editing = false
+            active = false
+        }
+        
+
+        
     }
     
     override func prepareForReuse() {
-        
+
     }
 }
 

@@ -98,7 +98,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         s.axis = .vertical
         return s
     }()
-    
+    var is_editing:Bool = false
     var gpa_cons:[NSLayoutConstraint]!
     var stack_cons:[NSLayoutConstraint]!
     var top_stack_cons:[NSLayoutConstraint]!
@@ -230,7 +230,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         gpaBoxLabel.animate(toText: viewModel.calculate_semester_gpa())
         model.semesters[model.selected_semester_index].gpa = viewModel.calculate_semester_gpa()
         class_cv.reloadData()
-        semester_cv.reloadData()
+        
     }
     
     
@@ -250,8 +250,15 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         return p
     }()
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let temp = model.semesters.remove(at: sourceIndexPath.item)
-        model.semesters.insert(temp, at: destinationIndexPath.item)
+        if collectionView == semester_cv {
+            let temp = model.semesters.remove(at: sourceIndexPath.item)
+            model.semesters.insert(temp, at: destinationIndexPath.item)
+
+        } else {
+            let temp = model.semesters[model.selected_semester_index].classes.remove(at: sourceIndexPath.item)
+            model.semesters[model.selected_semester_index].classes.insert(temp, at: destinationIndexPath.item)
+
+        }
     }
     func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
             return true
@@ -293,8 +300,42 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         print("add semester")
     }
     
+    func cancel_removal() {
+        is_editing = false
+        semester_cv.reloadData()
+        class_cv.reloadData()
+    }
+    
     func remove_semester() {
         print("remove semester")
+        is_editing = true
+  
+        semester_cv.reloadData()
+        
+    }
+    
+    func remove_selected_semester() {
+        is_editing = false
+        model.semesters.remove(at: index_semester_remove)
+        gpaBoxLabel.animate(toText: viewModel.calculate_semester_gpa())
+        infoLabel.animate(toText: "\(String(describing: self.model.semesters.count)) SEMESTERS")
+        semester_cv.reloadData()
+    }
+    
+    func remove_class() {
+        print("remove class")
+        is_editing = true
+        
+        class_cv.reloadData()
+    }
+    
+    func remove_selected_class() {
+        is_editing = false
+        model.semesters[model.selected_semester_index].classes.remove(at: index_class_remove)
+        gpaBoxLabel.animate(toText: viewModel.calculate_semester_gpa())
+        model.semesters[model.selected_semester_index].gpa = viewModel.calculate_semester_gpa()
+        class_cv.reloadData()
+       
     }
     
     func add_class() {
@@ -320,9 +361,8 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         print("add class")
     }
     
-    func remove_class() {
-        print("remove class")
-    }
+
+    
     
     //cv datasource and delegate
     
@@ -338,7 +378,8 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-    
+    var index_semester_remove:Int!
+    var index_class_remove:Int!
     //delegate
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == semester_cv {
@@ -346,9 +387,16 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             cell.awakeFromNib()
             cell.name.text = model.semesters[indexPath.item].name
             cell.gpa.text = model.semesters[indexPath.item].gpa
+            cell.gpa.font = UIFont.init(customFont: .MavenProBold, withSize: 35)
+            cell.gpa.textColor = .white
+            if is_editing {
+                cell.gpa.setFAIcon(icon: FAType.FATrash, iconSize: 35)
+                cell.gpa.setFAColor(color: UIColor.white)
+                cell.gpa.isUserInteractionEnabled = true
+                index_semester_remove = indexPath.item
+//                cell.gpa.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(remove_selected_semester)))
+            }
 
-            cell.layer.masksToBounds = true
-            cell.layer.cornerRadius = 12
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "class_cell", for: indexPath) as! class_cell
@@ -359,6 +407,20 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             
             cell.hours.text = String(describing: current_class.hours!)
             cell.gpa.text = current_class.gpa
+            
+            cell.name.font = UIFont.init(customFont: .MavenProBold, withSize: 25)
+            cell.name.textColor = .white
+            if is_editing {
+                cell.name.setFAIcon(icon: FAType.FATrash, iconSize: 35)
+                cell.name.setFAColor(color: UIColor.white)
+                cell.name.isUserInteractionEnabled = true
+                index_class_remove = indexPath.item
+     
+                cell.grade.text = ""
+                cell.hours.text = ""
+                cell.gpa.text = ""
+                //                cell.gpa.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(remove_selected_semester)))
+            }
 
             return cell
         }
@@ -367,27 +429,37 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == semester_cv {
-            model.selected_semester_index = indexPath.item
-
-            infoLabel.animate(toText: model.semesters[model.selected_semester_index].name)
-            gpaBoxLabel.animate(toText: viewModel.calculate_semester_gpa())
-            gpaLabel.animate(toText: "SEMESTER GPA")
-            self.class_cv.alpha = 0
-            flipView.switchViews {
-                self.class_cv.alpha = 1
-                if self.class_cv.delegate == nil {
-                    self.class_cv.delegate = self
-                    self.class_cv.dataSource = self
-                } else {
-                    self.class_cv.reloadData()
+            if is_editing {
+                remove_selected_semester()
+            } else {
+                model.selected_semester_index = indexPath.item
+                
+                infoLabel.animate(toText: model.semesters[model.selected_semester_index].name)
+                gpaBoxLabel.animate(toText: viewModel.calculate_semester_gpa())
+                gpaLabel.animate(toText: "SEMESTER GPA")
+                self.class_cv.alpha = 0
+                flipView.switchViews {
+                    self.class_cv.alpha = 1
+                    if self.class_cv.delegate == nil {
+                        self.class_cv.delegate = self
+                        self.class_cv.dataSource = self
+                    } else {
+                        self.class_cv.reloadData()
+                    }
                 }
             }
+
         } else {
-            //edit a class cell
-            model.class_is_being_edited = true
-            model.class_being_edited = indexPath.item
-            model.class_object_to_edit = model.semesters[model.selected_semester_index].classes[indexPath.item]
-            add_class()
+            if is_editing {
+                remove_selected_class()
+            } else {
+                //edit a class cell
+                model.class_is_being_edited = true
+                model.class_being_edited = indexPath.item
+                model.class_object_to_edit = model.semesters[model.selected_semester_index].classes[indexPath.item]
+                add_class()
+            }
+
         }
     }
 
@@ -402,7 +474,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             return CGSize(width: box_size, height: box_size/3)
         }
     }
-
+    var footer_minus_ref:UIButton!
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
@@ -423,6 +495,11 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             } else if collectionView == semester_cv {
                 footer.plus_button.addTarget(self, action: #selector(self.add_semester), for: .touchUpInside)
                 footer.minus_button.addTarget(self, action: #selector(self.remove_semester), for: .touchUpInside)
+
+            }
+            if is_editing {
+                footer.cancel_button.addTarget(self, action: #selector(self.cancel_removal), for: .touchUpInside)
+                footer.is_editing = true
             }
             footer.awakeFromNib()
             return footer
@@ -448,7 +525,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         gpaBoxLabel.animate(toText: String(describing: viewModel.calculate_all_semester_gpa()))
         gpaLabel.animate(toText: "TOTAL GPA")
         flipView.switchViews {
-            
+            self.semester_cv.reloadData()
         }
     }
     
