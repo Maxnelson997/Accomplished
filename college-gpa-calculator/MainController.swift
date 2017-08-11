@@ -31,6 +31,9 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         return g
     }()
     
+    fileprivate var longPressGesture:UILongPressGestureRecognizer!
+    fileprivate var longPressGestureClasses:UILongPressGestureRecognizer!
+    
     let model:GPModel = GPModel.sharedInstance
     let viewModel:ViewModel = ViewModel()
     
@@ -101,7 +104,38 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     var top_stack_cons:[NSLayoutConstraint]!
     var label_stack_cons:[NSLayoutConstraint]!
     var cv_cons:[NSLayoutConstraint]!
-    
+    func handleLongGesture(_ gesture: UILongPressGestureRecognizer) {
+        switch(gesture.state) {
+            
+        case UIGestureRecognizerState.began:
+            guard let selectedIndexPath = self.semester_cv.indexPathForItem(at: gesture.location(in: self.semester_cv)) else {
+                break
+            }
+            semester_cv.beginInteractiveMovementForItem(at: selectedIndexPath)
+        case UIGestureRecognizerState.changed:
+            semester_cv.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
+        case UIGestureRecognizerState.ended:
+            semester_cv.endInteractiveMovement()
+        default:
+            semester_cv.cancelInteractiveMovement()
+        }
+    }
+    func handleLongGestureClasses(_ gesture: UILongPressGestureRecognizer) {
+        switch(gesture.state) {
+            
+        case UIGestureRecognizerState.began:
+            guard let selectedIndexPath = self.class_cv.indexPathForItem(at: gesture.location(in: self.class_cv)) else {
+                break
+            }
+            class_cv.beginInteractiveMovementForItem(at: selectedIndexPath)
+        case UIGestureRecognizerState.changed:
+            class_cv.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
+        case UIGestureRecognizerState.ended:
+            class_cv.endInteractiveMovement()
+        default:
+            class_cv.cancelInteractiveMovement()
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = MaxView(frame: UIScreen.main.bounds)
@@ -119,6 +153,11 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         
         view.backgroundColor = .white
         view.addSubview(stack)
+        
+        longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
+        longPressGestureClasses = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGestureClasses(_:)))
+        self.semester_cv.addGestureRecognizer(longPressGesture)
+        self.class_cv.addGestureRecognizer(longPressGestureClasses)
         
         label_stack_cons = [
             gpaLabel.heightAnchor.constraint(equalTo: labelStack.heightAnchor, multiplier: 0.5),
@@ -210,6 +249,14 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         p.backgroundColor = UIColor.darkGray.withAlphaComponent(1)
         return p
     }()
+    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let temp = model.semesters.remove(at: sourceIndexPath.item)
+        model.semesters.insert(temp, at: destinationIndexPath.item)
+    }
+    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+            return true
+    }
+    
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         cell.transform = CGAffineTransform(scaleX: 0.7, y: 0.5)
         cell.alpha = 0
@@ -299,6 +346,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             cell.awakeFromNib()
             cell.name.text = model.semesters[indexPath.item].name
             cell.gpa.text = model.semesters[indexPath.item].gpa
+
             cell.layer.masksToBounds = true
             cell.layer.cornerRadius = 12
             return cell
@@ -308,6 +356,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             let current_class = model.semesters[model.selected_semester_index].classes[indexPath.item]
             cell.name.text = current_class.name
             cell.grade.text = current_class.grade
+            
             cell.hours.text = String(describing: current_class.hours!)
             cell.gpa.text = current_class.gpa
 

@@ -30,12 +30,14 @@ class semester_cell:UICollectionViewCell {
         let l = GPLabel()
         l.font = UIFont.init(customFont: .MavenProBold, withSize: 15)
         l.backgroundColor = .clear
+        l.isUserInteractionEnabled = false
         return l
     }()
     var gpa:GPLabel = {
         let l = GPLabel()
         l.font = UIFont.init(customFont: .MavenProBold, withSize: 35)
         l.backgroundColor = .clear
+        l.isUserInteractionEnabled = false
         return l
     }()
     
@@ -43,6 +45,7 @@ class semester_cell:UICollectionViewCell {
         let s = GPStackView(arrangedSubviews: [self.name, self.gpa])
         s.translatesAutoresizingMaskIntoConstraints = false
         s.axis = .vertical
+        s.isUserInteractionEnabled = false
         return s
     }()
     
@@ -51,6 +54,7 @@ class semester_cell:UICollectionViewCell {
     var exists:Bool = false
 
     override func awakeFromNib() {
+        self.isUserInteractionEnabled = true
         if !exists {
             contentView.addSubview(stack)
             stack_cons = [
@@ -109,6 +113,7 @@ class class_cell:UICollectionViewCell {
         let s = UIStackView(arrangedSubviews: [self.grade, self.hours, self.gpa])
         s.translatesAutoresizingMaskIntoConstraints = false
         s.axis = .horizontal
+        s.isUserInteractionEnabled = false
         return s
     }()
     
@@ -116,6 +121,7 @@ class class_cell:UICollectionViewCell {
         let s = GPStackView(arrangedSubviews: [self.name, self.stack])
         s.translatesAutoresizingMaskIntoConstraints = false
         s.axis = .vertical
+         s.isUserInteractionEnabled = false
         return s
     }()
     
@@ -307,7 +313,7 @@ class GPStackView:UIStackView {
         set {
             if let laya = self.layer as? CAGradientLayer {
                 laya.colors = newValue
-                laya.locations = [0.0, 1.20]
+                laya.locations = [0.0, 0.5]
             }
         }
         get {
@@ -317,8 +323,9 @@ class GPStackView:UIStackView {
     
     func phaseTwo() {
         if let laya = self.layer as? CAGradientLayer {
-            laya.colors = [ UIColor(rgb: 0x82D15C).cgColor, UIColor(rgb: 0x11C2D3).cgColor ]
-            laya.locations = [0.0, 1.20]
+//yellowgreenishbluefade            laya.colors = [ UIColor(rgb: 0x82D15C).cgColor, UIColor(rgb: 0x11C2D3).cgColor ]
+            laya.colors = [ UIColor(rgb: 0x42C8FF).cgColor, UIColor(rgb: 0x3A3A3A).cgColor ]
+            laya.locations = [0.0, 1.5]
         }
         self.layer.masksToBounds = true
         self.layer.cornerRadius = 12
