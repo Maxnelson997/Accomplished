@@ -150,7 +150,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         gpaBoxLabel.textColor = UIColor.darkGray
         gpaBoxLabel.layer.cornerRadius = 12
         gpaBoxLabel.layer.masksToBounds = true
-        
+
         view.backgroundColor = .white
         view.addSubview(stack)
         
@@ -205,6 +205,8 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
 
         semester_cv.delegate = self
         semester_cv.dataSource = self
+   
+
     }
 
     func addSemester(title:String) {
@@ -403,7 +405,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
                 cell.gpa.setFAIcon(icon: FAType.FATrash, iconSize: 35)
                 cell.gpa.setFAColor(color: UIColor.white)
                 cell.gpa.isUserInteractionEnabled = true
-                
+                cell.name.text = "DELETE \(cell.name.text!)"
 //                cell.gpa.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(remove_selected_semester)))
             }
 
@@ -421,13 +423,13 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             cell.name.font = UIFont.init(customFont: .MavenProBold, withSize: 25)
             cell.name.textColor = .white
             if is_editing {
-                cell.name.setFAIcon(icon: FAType.FATrash, iconSize: 35)
+                cell.name.setFAIcon(icon: FAType.FATrash, iconSize: 25)
                 cell.name.setFAColor(color: UIColor.white)
                 cell.name.isUserInteractionEnabled = true
                 
      
                 cell.grade.text = ""
-                cell.hours.text = ""
+                cell.hours.text = "DELETE"
                 cell.gpa.text = ""
                 //                cell.gpa.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(remove_selected_semester)))
             }
@@ -450,7 +452,9 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
                 gpaLabel.animate(toText: "SEMESTER GPA")
                 self.class_cv.alpha = 0
                 flipView.switchViews {
-                    self.class_cv.alpha = 1
+                    UIView.animate(withDuration: 0.15, animations: {
+                        self.class_cv.alpha = 1
+                    })
                     if self.class_cv.delegate == nil {
                         self.class_cv.delegate = self
                         self.class_cv.dataSource = self
@@ -483,7 +487,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             return CGSize(width: box_size, height: box_size)
         } else {
             let box_size = collectionView.frame.width - 20
-            return CGSize(width: box_size, height: box_size/3)
+            return CGSize(width: box_size, height: box_size/3.5)
         }
     }
     var footer_minus_ref:UIButton!
@@ -538,8 +542,13 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         gpaLabel.animate(toText: "TOTAL GPA")
         self.semester_cv.alpha = 0
         flipView.switchViews {
-            self.semester_cv.alpha = 1
+            UIView.animate(withDuration: 0.15, animations: {
+                self.semester_cv.alpha = 1
+            }, completion: { finished in
+                
+            })
             self.semester_cv.reloadData()
+            
         }
     }
     

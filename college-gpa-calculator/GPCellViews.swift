@@ -351,11 +351,11 @@ class GPStackView:UIStackView {
     func phaseTwo() {
         if let laya = self.layer as? CAGradientLayer {
 //yellowgreenishbluefade            laya.colors = [ UIColor(rgb: 0x82D15C).cgColor, UIColor(rgb: 0x11C2D3).cgColor ]
-            laya.colors = [ UIColor(rgb: 0x42C8FF).cgColor, UIColor(rgb: 0x3A3A3A).cgColor ]
+            laya.colors = [ UIColor(rgb: 0x42C8FF).withAlphaComponent(1).cgColor, UIColor(rgb: 0x575858).withAlphaComponent(1).cgColor ]
             laya.locations = [0.0, 1.5]
         }
         self.layer.masksToBounds = true
-        self.layer.cornerRadius = 12
+        self.layer.cornerRadius = 20
         self.addDropShadowToView()
     }
     

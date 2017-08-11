@@ -42,7 +42,7 @@ class GPFlipView: UIView {
         firstView = GPView()
         secondView = GPView()
     
-        
+
         flipViews = (front: firstView, back: secondView)
         
         addSubview(flipViews!.front)
