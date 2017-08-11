@@ -26,7 +26,7 @@ class NewSemesterView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIC
 
     let cv:UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
+        layout.sectionInset = UIEdgeInsets(top: 20, left: 15, bottom: 10, right: 15)
         layout.sectionFootersPinToVisibleBounds = true
         layout.sectionHeadersPinToVisibleBounds = true
         layout.scrollDirection = .vertical
@@ -44,6 +44,7 @@ class NewSemesterView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIC
         cv.layer.masksToBounds = true
         return cv
     }()
+    
     var header_label:GPLabel = {
         let l = GPLabel()
         l.font = UIFont.init(customFont: .MavenProRegular, withSize: 18)
@@ -246,7 +247,7 @@ class NewSemesterView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIC
             
 
             header.addSubview(header_label)
-            header.frame = CGRect(x: 20, y: 0, width: collectionView.frame.width - 40, height: 50)
+            header.frame = CGRect(x: 20, y: 10, width: collectionView.frame.width - 40, height: 50)
             NSLayoutConstraint.activate(header_label.getConstraintsOfView(to: header))
             header.backgroundColor = UIColor.black.withAlphaComponent(1)
             header.layer.cornerRadius = 12
