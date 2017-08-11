@@ -317,7 +317,8 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     func remove_selected_semester() {
         is_editing = false
         model.semesters.remove(at: index_semester_remove)
-        gpaBoxLabel.animate(toText: viewModel.calculate_semester_gpa())
+        
+        gpaBoxLabel.animate(toText: viewModel.calculate_all_semester_gpa())
         infoLabel.animate(toText: "\(String(describing: self.model.semesters.count)) SEMESTERS")
         semester_cv.reloadData()
     }
@@ -393,7 +394,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
                 cell.gpa.setFAIcon(icon: FAType.FATrash, iconSize: 35)
                 cell.gpa.setFAColor(color: UIColor.white)
                 cell.gpa.isUserInteractionEnabled = true
-                index_semester_remove = indexPath.item
+                
 //                cell.gpa.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(remove_selected_semester)))
             }
 
@@ -414,7 +415,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
                 cell.name.setFAIcon(icon: FAType.FATrash, iconSize: 35)
                 cell.name.setFAColor(color: UIColor.white)
                 cell.name.isUserInteractionEnabled = true
-                index_class_remove = indexPath.item
+                
      
                 cell.grade.text = ""
                 cell.hours.text = ""
@@ -430,6 +431,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == semester_cv {
             if is_editing {
+                index_semester_remove = indexPath.item
                 remove_selected_semester()
             } else {
                 model.selected_semester_index = indexPath.item
@@ -451,6 +453,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
 
         } else {
             if is_editing {
+                index_class_remove = indexPath.item
                 remove_selected_class()
             } else {
                 //edit a class cell
