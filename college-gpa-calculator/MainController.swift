@@ -17,6 +17,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     let space0:GPLabel = GPLabel()
     
     let model:GPModel = GPModel.sharedInstance
+    let viewModel:ViewModel = ViewModel()
     
     let flipView:GPFlipView = GPFlipView()
 
@@ -133,6 +134,9 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         class_cv.reloadData()
     }
     
+    
+
+    
     var new_semester_view:NewSemesterView = {
         let p = NewSemesterView()
         p.translatesAutoresizingMaskIntoConstraints = false
@@ -164,6 +168,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     func add_semester() {
         new_semester_cons = new_semester_view.getConstraintsOfView(to: flipView.firstView)
         new_semester_view.delegate = self
+   
         self.flipView.firstView.addSubview(new_semester_view)
         NSLayoutConstraint.activate(new_semester_cons)
         new_semester_view.cv.reloadData()
@@ -258,6 +263,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
                 class_cv.reloadData()
             }
             space0.animate(toText: model.semesters[model.selected_semester_index].name)
+            self.gpaBoxLabel.text = String(describing: viewModel.calculate_semester_gpa())
             flipView.switchViews {
                 
             }
@@ -320,6 +326,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     
     func SwitchView() {
         space0.animate(toText: "\(String(describing: self.model.semesters.count)) SEMESTERS")
+        gpaBoxLabel.text = String(describing: viewModel.calculate_all_semester_gpa())
         flipView.switchViews {
             
         }

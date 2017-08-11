@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+
 extension UIView {
     func getConstraintsOfView(to: UIView) -> [NSLayoutConstraint] {
         return [
@@ -41,5 +43,35 @@ struct semester_class {
     var grade:String!
     var hours:CGFloat!
     var gpa:String!
+    
+    init(name: String, grade: String, hours:CGFloat, gpa:String) {
+        self.name = name
+        self.grade = grade
+        self.hours = hours
+        self.gpa = String(describing: calculate_class_gpa(grade: grade, hour: hours))
+    }
 }
 
+let letters:[String:CGFloat] = [
+    "A+":4.0,
+    "A":4.0,
+    "A-":3.7,
+    "B+":3.33,
+    "B":3.00,
+    "B-":2.7,
+    "C+":2.3,
+    "C":2.0,
+    "C-":1.7,
+    "D+":1.3,
+    "D":1.0,
+    "D-":0.70,
+    "F":0]
+
+func calculate_class_gpa(grade:String, hour:CGFloat) -> CGFloat {
+    let grade_value:CGFloat = letters[grade]!
+//    let points = grade_value * hour
+//    let gpa = points/hour
+//    return gpa
+    return grade_value
+}
+    

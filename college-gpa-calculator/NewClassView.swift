@@ -175,7 +175,7 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
         selected_grade = s_grades[1]
         selected_hour = s_hours[2]
         
-        header_label.text = "\(selected_grade) \(selected_hour)"
+        header_label.text = "grade: \(selected_grade)   hour: \(selected_hour)"
         
         //popup view asking for user input
         //pickerview with two columns.
@@ -218,7 +218,7 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
         } else {
             selected_hour = s_hours[row]
         }
-        header_label.text = "\(selected_grade) \(selected_hour)"
+        header_label.text = "grade: \(selected_grade)   hour: \(selected_hour)"
         
         
     }
