@@ -29,7 +29,7 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
     
     let cv:UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
+        layout.sectionInset = UIEdgeInsets(top: 20, left: 15, bottom: 10, right: 15)
         layout.sectionFootersPinToVisibleBounds = true
         layout.sectionHeadersPinToVisibleBounds = true
         layout.scrollDirection = .vertical
@@ -69,10 +69,10 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
         let l = UITextField()
         l.font = UIFont.init(customFont: .MavenProRegular, withSize: 18)
         l.placeholder = "class name"
-        l.textColor = .white
+        l.textColor = .darkGray
         l.layer.cornerRadius = 12
         l.layer.masksToBounds = true
-        l.attributedPlaceholder = NSAttributedString(string: "CLASS NAME", attributes: [NSForegroundColorAttributeName:UIColor.white.withAlphaComponent(0.5), NSFontAttributeName:UIFont.init(customFont: .MavenProRegular, withSize: 18)!])
+        l.attributedPlaceholder = NSAttributedString(string: "CLASS NAME", attributes: [NSForegroundColorAttributeName:UIColor.black.withAlphaComponent(0.5), NSFontAttributeName:UIFont.init(customFont: .MavenProRegular, withSize: 18)!])
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }()
@@ -87,7 +87,7 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "empty_cell", for: indexPath) as! empty_cell
         cell.awakeFromNib()
-        cell.contentView.backgroundColor = UIColor.black.withAlphaComponent(1)
+        cell.contentView.backgroundColor = UIColor.darkGray.withAlphaComponent(0.2)
         cell.contentView.layer.cornerRadius = 12
         cell.contentView.layer.masksToBounds = true
         if indexPath.item == 1 {
@@ -247,7 +247,7 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
         } else {
             titleData = s_hours[row]
         }
-        let myTitle = NSAttributedString(string: titleData!, attributes: [NSFontAttributeName:UIFont.init(customFont: .MavenProRegular, withSize: 15)!,NSForegroundColorAttributeName:UIColor.white])
+        let myTitle = NSAttributedString(string: titleData!, attributes: [NSFontAttributeName:UIFont.init(customFont: .MavenProRegular, withSize: 15)!,NSForegroundColorAttributeName:UIColor.black])
         return myTitle
     }
     
@@ -267,9 +267,9 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
             
             
             header.addSubview(header_label)
-            header.frame = CGRect(x: 20, y: 0, width: collectionView.frame.width - 40, height: 50)
+            header.frame = CGRect(x: 20, y: 10, width: collectionView.frame.width - 40, height: 50)
             NSLayoutConstraint.activate(header_label.getConstraintsOfView(to: header))
-            header.backgroundColor = UIColor.black.withAlphaComponent(1)
+            header.backgroundColor = UIColor.darkGray.withAlphaComponent(0.2)
             header.layer.cornerRadius = 12
             header.layer.masksToBounds = true
             
@@ -289,11 +289,10 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
         return UICollectionReusableView()
     }
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        cell.transform = CGAffineTransform(scaleX: 0.7, y: 0.5)
+        cell.transform = CGAffineTransform(scaleX: 1, y: 0.1)
         cell.alpha = 0
         
-        
-        UIView.animate(withDuration: 0.65, delay: 0, usingSpringWithDamping: 20, initialSpringVelocity: 20, options: .curveEaseIn, animations: {
+        UIView.animate(withDuration: 0.65, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
             cell.alpha = 1.0
             //cell.layer.transform = CATransform3DIdentity
             cell.transform = CGAffineTransform(scaleX: 1, y: 1)
@@ -301,6 +300,7 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
         
     }
     func cancel_class() {
+        delegate.showAlpha()
         print("canceled adding class")
         self.removeFromSuperview()
         model.class_is_being_edited = false

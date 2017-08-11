@@ -214,6 +214,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         model.semesters.append(new_semester)
         infoLabel.animate(toText: "\(String(describing: self.model.semesters.count)) SEMESTERS")
         semester_cv.reloadData()
+        semester_cv.alpha = 1
     }
  
     func addClass(title: String, grade: String, hour: Int) {
@@ -230,7 +231,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         gpaBoxLabel.animate(toText: viewModel.calculate_semester_gpa())
         model.semesters[model.selected_semester_index].gpa = viewModel.calculate_semester_gpa()
         class_cv.reloadData()
-        
+        class_cv.alpha = 1
     }
     
     
@@ -239,14 +240,14 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     var new_semester_view:NewSemesterView = {
         let p = NewSemesterView()
         p.translatesAutoresizingMaskIntoConstraints = false
-        p.backgroundColor = UIColor.darkGray.withAlphaComponent(1)
+        p.backgroundColor = UIColor.clear
         return p
     }()
     
     var new_class_view:NewClassView = {
         let p = NewClassView()
         p.translatesAutoresizingMaskIntoConstraints = false
-        p.backgroundColor = UIColor.darkGray.withAlphaComponent(1)
+        p.backgroundColor = UIColor.clear
         return p
     }()
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
@@ -265,17 +266,21 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        cell.transform = CGAffineTransform(scaleX: 0.7, y: 0.5)
+        if collectionView == semester_cv {
+            cell.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+        } else {
+            cell.transform = CGAffineTransform(scaleX: 1, y: 0.1)
+        }
+
         cell.alpha = 0
         
-        
-        UIView.animate(withDuration: 0.65, delay: 0, usingSpringWithDamping: 20, initialSpringVelocity: 20, options: .curveEaseIn, animations: {
+        UIView.animate(withDuration: 0.65, delay: 0, usingSpringWithDamping: 25, initialSpringVelocity: 25, options: .curveEaseIn, animations: {
             cell.alpha = 1.0
             //cell.layer.transform = CATransform3DIdentity
             cell.transform = CGAffineTransform(scaleX: 1, y: 1)
         }, completion: nil)
-        
     }
+    
     var new_semester_cons:[NSLayoutConstraint]!
     var new_class_cons:[NSLayoutConstraint]!
     //VMMV view logic or model logic or something
@@ -287,6 +292,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         NSLayoutConstraint.activate(new_semester_cons)
         new_semester_view.cv.reloadData()
         new_semester_view.load()
+        semester_cv.alpha = 0
         //popup view asking for user input
         //pickerview with two columns.
             //SEMESTER - YEAR
@@ -314,10 +320,14 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         
     }
     
+    func showAlpha() {
+        semester_cv.alpha = 1
+        class_cv.alpha = 1
+    }
+    
     func remove_selected_semester() {
         is_editing = false
         model.semesters.remove(at: index_semester_remove)
-        
         gpaBoxLabel.animate(toText: viewModel.calculate_all_semester_gpa())
         infoLabel.animate(toText: "\(String(describing: self.model.semesters.count)) SEMESTERS")
         semester_cv.reloadData()
@@ -345,9 +355,8 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         flipView.secondView.addSubview(new_class_view)
         NSLayoutConstraint.activate(new_class_cons)
         new_class_view.cv.reloadData()
-
         new_class_view.load()
-
+        class_cv.alpha = 0
         //popup view asking for user input
         //textfield asking for class name
             //CLASS NAME
@@ -527,7 +536,9 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         infoLabel.animate(toText: "\(String(describing: self.model.semesters.count)) SEMESTERS")
         gpaBoxLabel.animate(toText: String(describing: viewModel.calculate_all_semester_gpa()))
         gpaLabel.animate(toText: "TOTAL GPA")
+        self.semester_cv.alpha = 0
         flipView.switchViews {
+            self.semester_cv.alpha = 1
             self.semester_cv.reloadData()
         }
     }

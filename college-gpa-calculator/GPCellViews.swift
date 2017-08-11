@@ -302,7 +302,7 @@ class CVFooter:UICollectionReusableView {
 
         if is_editing {
             cancel_button.frame = CGRect(x: 0, y: 0, width: self.frame.height, height: self.frame.height)
-            cancel_button.setFAIcon(icon: FAType.FACode, forState: .normal)
+            cancel_button.setFAIcon(icon: FAType.FAClose, forState: .normal)
             cancel = UIBarButtonItem(customView: cancel_button)
             toolbar.setItems([flexspace, cancel, flexspace], animated: true)
             is_editing = false

@@ -12,6 +12,7 @@ import Font_Awesome_Swift
 protocol GPNewDataDelegate {
     func addSemester(title:String)
     func addClass(title:String, grade:String, hour:Int)
+    func showAlpha()
 }
 
 class NewSemesterView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
@@ -81,7 +82,7 @@ class NewSemesterView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIC
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "empty_cell", for: indexPath) as! empty_cell
         cell.awakeFromNib()
-        cell.contentView.backgroundColor = UIColor.black.withAlphaComponent(1)
+        cell.contentView.backgroundColor = UIColor.darkGray.withAlphaComponent(0.2)
         cell.contentView.layer.cornerRadius = 12
         cell.contentView.layer.masksToBounds = true
         if indexPath.item == 1 {
@@ -227,7 +228,7 @@ class NewSemesterView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIC
         } else {
             titleData = s_years[row]
         }
-        let myTitle = NSAttributedString(string: titleData!, attributes: [NSFontAttributeName:UIFont.init(customFont: .MavenProRegular, withSize: 15)!,NSForegroundColorAttributeName:UIColor.white])
+        let myTitle = NSAttributedString(string: titleData!, attributes: [NSFontAttributeName:UIFont.init(customFont: .MavenProRegular, withSize: 15)!,NSForegroundColorAttributeName:UIColor.black])
         return myTitle
     }
 
@@ -249,7 +250,7 @@ class NewSemesterView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIC
             header.addSubview(header_label)
             header.frame = CGRect(x: 20, y: 10, width: collectionView.frame.width - 40, height: 50)
             NSLayoutConstraint.activate(header_label.getConstraintsOfView(to: header))
-            header.backgroundColor = UIColor.black.withAlphaComponent(1)
+            header.backgroundColor = UIColor.darkGray.withAlphaComponent(0.2)
             header.layer.cornerRadius = 12
             header.layer.masksToBounds = true
 
@@ -268,22 +269,23 @@ class NewSemesterView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIC
         }
         return UICollectionReusableView()
     }
+ 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        cell.transform = CGAffineTransform(scaleX: 0.7, y: 0.5)
+        cell.transform = CGAffineTransform(scaleX: 1, y: 0.1)
         cell.alpha = 0
         
-
-        UIView.animate(withDuration: 0.65, delay: 0, usingSpringWithDamping: 20, initialSpringVelocity: 20, options: .curveEaseIn, animations: {
+        UIView.animate(withDuration: 0.65, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
             cell.alpha = 1.0
             //cell.layer.transform = CATransform3DIdentity
             cell.transform = CGAffineTransform(scaleX: 1, y: 1)
         }, completion: nil)
-
+        
     }
     func cancel_semester() {
-        print("canceled adding semester")
-
+        delegate.showAlpha()
         self.removeFromSuperview()
+
+        
     }
     
     func add_semester() {
