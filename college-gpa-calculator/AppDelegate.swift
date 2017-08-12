@@ -26,14 +26,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         window?.rootViewController = main_controller
         
-        for family: String in UIFont.familyNames
-        {
-            print("--\(family)")
-            for names: String in UIFont.fontNames(forFamilyName: family)
-            {
-                print("---- \(names)")
-            }
-        }
+//        for family: String in UIFont.familyNames
+//        {
+//            print("--\(family)")
+//            for names: String in UIFont.fontNames(forFamilyName: family)
+//            {
+//                print("---- \(names)")
+//            }
+//        }
         return true
     }
 
@@ -58,6 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
+        
         model.save_semesters_coredata()
     }
 

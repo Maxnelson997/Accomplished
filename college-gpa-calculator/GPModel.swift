@@ -38,27 +38,55 @@ class GPModel {
     
     func get_semesters_coredata() {
         context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Semesters")
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Sems")
         request.returnsObjectsAsFaults = false
         do
         {
             let results = try context.fetch(request)
+            print(results.count)
             if results.count != 0 {
                 //there is data previously saved
-                for result in results as! [NSManagedObject]{
+                for result in results as! [Sems]{
                     //snatch the semesters array
-                    if let count = result.value(forKey: "semester") as? Data {
-                        print("semester retrieved: \(count)")
-                        if let mySavedData = NSKeyedUnarchiver.unarchiveObject(with: count) as? NSArray {
-                            //extract data
-                            for semester_data in mySavedData {
-                                let sem = semester.unarchive(data: semester_data as! Data)
-                                semesters.append(sem)
+                    print(result)
+                    var retrieved_classes:[semester_class] = []
+                    let class_request = NSFetchRequest<NSFetchRequestResult>(entityName: "Classes")
+                    class_request.returnsObjectsAsFaults = false
+                    let class_results = try context.fetch(class_request)
+                    print(class_results.count)
+   
+                    if class_results.count != 0 {
+                        var count = 0
+                        for class_result in class_results as! [Classes] {
+                            if count != Int(result.class_count) {
+                                count += 1
+                                retrieved_classes.append(semester_class(name: class_result.name!, grade: class_result.grade!, hours: Int(class_result.hours), gpa: class_result.gpa!))
+                                context.delete(class_result)
                             }
+                            
                         }
-                        
-                        
-                        
+                    }
+                    
+                    self.semesters.append(semester(name: result.name!, gpa: result.gpa!, classes: retrieved_classes))
+//                    if let count = result.value(forKey: "semester") as? Data {
+//                        print("semester retrieved: \(count)")
+//                        if let mySavedData = NSKeyedUnarchiver.unarchiveObject(with: count) as? NSArray {
+//                            //extract data
+//                            for semester_data in mySavedData {
+//                                let sem = semester.unarchive(data: semester_data as! Data)
+//                                semesters.append(sem)
+//                            }
+//                        }
+//                        
+//                        
+//                        
+//                    }
+                    //after it has been recorded in memory delete all objects
+                    context.delete(result)
+                    do {
+                        try context.save()
+                    } catch {
+                        print("error saving classes to context after deletion")
                     }
                 }
             } else {
@@ -70,51 +98,73 @@ class GPModel {
             print("hmm error retreiving image count")
         }
     }
+    //will delete by removing all at loadtime then saving ones that exist after the user exits
+//    func delete_semester_coredata() {
+//        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Sems")
+//        request.returnsObjectsAsFaults = false
+//        if let result = try? context.fetch(request) {
+//            //heads-up: ive named object "item" or "result" in other instances such as save_semesters_coredata() and get_semesters_coredata()
+//            
+//            for object in result as! [Sems] {
+//                if object.
+//            }
+//    
+//        }
+//    }
     
     var CoreDataSemestersArray = NSMutableArray()
     
     func save_semesters_coredata() {
-        var semester_count_coredata:NSManagedObject!
         
-        //check if count exists
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Semesters")
         
-        request.returnsObjectsAsFaults = false
-        
-        if let results = try? context.fetch(request) {
-            
-            if results.count != 0 {
-                //a count exists
-                semester_count_coredata = results.first as! NSManagedObject
-            } else {
-                //create a count
-                semester_count_coredata = NSEntityDescription.insertNewObject(forEntityName: "Semesters", into: context)
+        for item in semesters {
+//            let data:NSData = NSData(data: semester.archive(structure: sem))
+//            CoreDataSemestersArray.add(data)
+            let semes:Sems = NSEntityDescription.insertNewObject(forEntityName: "Sems", into: context) as! Sems
+            semes.name = item.name
+            semes.gpa = item.gpa
+            semes.class_count = Int16(item.classes.count)
+
+            for class_data_item in item.classes {
+                print(item.classes.count)
+                let class_item:Classes = NSEntityDescription.insertNewObject(forEntityName: "Classes", into: self.context) as! Classes
+                class_item.name = class_data_item.name
+                class_item.gpa = class_data_item.gpa
+                class_item.hours = Int16(class_data_item.hours)
+                class_item.grade = class_data_item.grade
             }
-        } else {
-            //failed
-            print("hmm failed?")
+            (UIApplication.shared.delegate as! AppDelegate).saveContext()
         }
-        for sem in semesters {
-            let data:NSData = NSData(data: semester.archive(structure: sem))
-            CoreDataSemestersArray.add(data)
-        }
-        let coreDataObject = NSKeyedArchiver.archivedData(withRootObject: CoreDataSemestersArray)
-        semester_count_coredata.setValue(coreDataObject, forKey: "semester")
+//        let coreDataObject = NSKeyedArchiver.archivedData(withRootObject: CoreDataSemestersArray)
+//        semester_count_coredata.setValue(coreDataObject, forKey: "semester")
         //store new count
         
-        do
-        {
-            try context.save()
-            print("semester count saved in Core Data model: \(String(describing: semester_count_coredata.value(forKey: "semester")!))")
-        }
-        catch
-        {
-            print("hmm error saving credentials")
-        }
-        //                appDelegate.saveContext()
+        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        //appDelegate.saveContext()
     }
     
 }
+
+//@objc(Sems)
+//public class Sems:NSManagedObject {
+//    
+//    @NSManaged public var name:String?
+//    @NSManaged public var gpa:String?
+////    @NSManaged public var classes:[semester_class]?
+//    
+//    var allAttributes:semester {
+//        get {
+//            return semester(name: self.name!, gpa: self.gpa!)
+//        }
+//        set {
+//            self.name = newValue.name
+//            self.gpa = newValue.gpa
+//        }
+//    }
+//    
+//}
+
+
 
 struct semester {
     var name:String!
@@ -148,7 +198,13 @@ struct semester {
         self.gpa = gpa
         self.classes = classes
     }
+    
+    init(name:String, gpa:String) {
+        self.name = name
+        self.gpa = gpa
+    }
 }
+
 
 struct semester_class {
     var name:String!
