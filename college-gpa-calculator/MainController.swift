@@ -352,6 +352,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     }
     
     func add_class() {
+
         new_class_cons = new_class_view.getConstraintsOfView(to: flipView.secondView)
         new_class_view.delegate = self
         flipView.secondView.addSubview(new_class_view)
@@ -416,7 +417,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             let current_class = model.semesters[model.selected_semester_index].classes[indexPath.item]
             cell.name.text = current_class.name
             cell.grade.text = current_class.grade
-            
+            model.semesters[model.selected_semester_index].classes[indexPath.item].location = indexPath.item
             cell.hours.text = String(describing: current_class.hours!)
             cell.gpa.text = current_class.gpa
             

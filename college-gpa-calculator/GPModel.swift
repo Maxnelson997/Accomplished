@@ -50,6 +50,7 @@ class GPModel {
                     //snatch the semesters array
                     print(result)
                     var retrieved_classes:[semester_class] = []
+                    var retrieved_classes1:[semester_class] = []
                     let class_request = NSFetchRequest<NSFetchRequestResult>(entityName: "Classes")
                     class_request.returnsObjectsAsFaults = false
                     let class_results = try context.fetch(class_request)
@@ -57,17 +58,44 @@ class GPModel {
    
                     if class_results.count != 0 {
                         var count = 0
-                        for class_result in class_results as! [Classes] {
+                    
+                
+                        print(retrieved_classes.count)
+                        for class_result in (class_results as! [Classes]) {
                             if count != Int(result.class_count) {
-                                count += 1
-                                retrieved_classes.append(semester_class(name: class_result.name!, grade: class_result.grade!, hours: Int(class_result.hours), gpa: class_result.gpa!))
+                                
+                                var c = semester_class(name: class_result.name!, grade: class_result.grade!, hours: Int(class_result.hours), gpa: class_result.gpa!)
+                                c.location = Int(class_result.location)
+                                let n = Int(result.class_count - class_result.location)
+                                print("class_rsult location: \(class_result.location)")
+                                print("result class count: \(result.class_count)")
+                                print("n \(n-1)")
+                                print("count \(count)")
+                     
+                                retrieved_classes.append(c)
+//                                retrieved_classes.append()
                                 context.delete(class_result)
+                                count += 1
+                                
                             }
                             
                         }
                     }
+                    var indx = 0
+                    var cnt = retrieved_classes.count
+                    while cnt != 0 {
+                        for r in retrieved_classes {
+                            if r.location == indx {
+                                retrieved_classes1.append(r)
+                                indx += 1
+                                cnt -= 1
+                            }
+                        }
+                        
+                        
+                    }
                     
-                    self.semesters.append(semester(name: result.name!, gpa: result.gpa!, classes: retrieved_classes))
+                    self.semesters.append(semester(name: result.name!, gpa: result.gpa!, classes: retrieved_classes1))
 //                    if let count = result.value(forKey: "semester") as? Data {
 //                        print("semester retrieved: \(count)")
 //                        if let mySavedData = NSKeyedUnarchiver.unarchiveObject(with: count) as? NSArray {
@@ -103,7 +131,7 @@ class GPModel {
 //        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Sems")
 //        request.returnsObjectsAsFaults = false
 //        if let result = try? context.fetch(request) {
-//            //heads-up: ive named object "item" or "result" in other instances such as save_semesters_coredata() and get_semesters_coredata()
+//            //heads-up: ive named object "item" or "result" in other instances such as saving and retrieving/getting
 //            
 //            for object in result as! [Sems] {
 //                if object.
@@ -115,8 +143,6 @@ class GPModel {
     var CoreDataSemestersArray = NSMutableArray()
     
     func save_semesters_coredata() {
-        
-        
         for item in semesters {
 //            let data:NSData = NSData(data: semester.archive(structure: sem))
 //            CoreDataSemestersArray.add(data)
@@ -124,14 +150,18 @@ class GPModel {
             semes.name = item.name
             semes.gpa = item.gpa
             semes.class_count = Int16(item.classes.count)
-
+            var location = 0
+        
             for class_data_item in item.classes {
+                
                 print(item.classes.count)
                 let class_item:Classes = NSEntityDescription.insertNewObject(forEntityName: "Classes", into: self.context) as! Classes
                 class_item.name = class_data_item.name
                 class_item.gpa = class_data_item.gpa
                 class_item.hours = Int16(class_data_item.hours)
                 class_item.grade = class_data_item.grade
+                class_item.location = Int16(location)
+                location += 1
             }
             (UIApplication.shared.delegate as! AppDelegate).saveContext()
         }
@@ -212,13 +242,18 @@ struct semester_class {
     var hours:Int!
     var gpa:String!
     
+    var location:Int!
+    
     
     init(name: String, grade: String, hours:Int, gpa:String) {
         self.name = name
         self.grade = grade
         self.hours = hours
         self.gpa = String(describing: calculate_class_gpa(grade: grade, hour: Double(hours)))
+
     }
+    
+    
 }
 
 let letters:[String:Double] = [

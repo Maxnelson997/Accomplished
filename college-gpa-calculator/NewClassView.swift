@@ -27,6 +27,8 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
     
     var delegate:GPNewDataDelegate!
     
+    var location:Int!
+    
     let cv:UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 15, bottom: 10, right: 15)

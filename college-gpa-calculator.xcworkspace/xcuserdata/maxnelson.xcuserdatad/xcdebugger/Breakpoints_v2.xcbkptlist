@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../Library/Developer/Xcode/DerivedData/college-gpa-calculator-gdslkndwpyczgqaozdwyghfqkolw/Build/Intermediates/college-gpa-calculator.build/Debug-iphoneos/college-gpa-calculator.build/DerivedSources/CoreDataGenerated/college_gpa_calculator/Sems+CoreDataClass.swift"
-            timestampString = "524261774.780514"
+            timestampString = "524271506.424745"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "22"
-            endingLineNumber = "22">
+            startingLineNumber = "23"
+            endingLineNumber = "23">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -24,11 +24,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../Library/Developer/Xcode/DerivedData/college-gpa-calculator-gdslkndwpyczgqaozdwyghfqkolw/Build/Intermediates/college-gpa-calculator.build/Debug-iphoneos/college-gpa-calculator.build/DerivedSources/CoreDataGenerated/college_gpa_calculator/Sems+CoreDataClass.swift"
-            timestampString = "524261776.390431"
+            timestampString = "524271506.424745"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26">
+            startingLineNumber = "27"
+            endingLineNumber = "27">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
