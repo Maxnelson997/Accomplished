@@ -56,7 +56,7 @@ class ViewModel {
             }
             return r
         }
-        return "--"
+        return "0.00"
     }
     
     func calculate_all_semester_gpa() -> String {

@@ -212,7 +212,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     func addSemester(title:String) {
         NSLayoutConstraint.deactivate(new_semester_cons)
         new_semester_view.removeFromSuperview()
-        let new_semester = semester(name: title, gpa: "--", classes: [])
+        let new_semester = semester(name: title, gpa: "0.00", classes: [])
         model.semesters.append(new_semester)
         infoLabel.animate(toText: "\(String(describing: self.model.semesters.count)) SEMESTERS")
         semester_cv.reloadData()
@@ -222,7 +222,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     func addClass(title: String, grade: String, hour: Int) {
         NSLayoutConstraint.deactivate(new_class_cons)
         new_class_view.removeFromSuperview()
-        let new_class = semester_class(name: title, grade: grade, hours: hour, gpa: "--")
+        let new_class = semester_class(name: title, grade: grade, hours: hour, gpa: "0.00")
         if model.class_is_being_edited {
             model.semesters[model.selected_semester_index].classes[model.class_being_edited] = new_class
             model.class_is_being_edited = false

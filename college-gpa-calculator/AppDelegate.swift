@@ -13,12 +13,13 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    let model = GPModel.sharedInstance
 //    var main_nav:UINavigationController!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         let main_controller = MainController()
-
+        model.get_semesters_coredata()
 //        main_nav = UINavigationController(rootViewController: main_controller)
 //        main_nav.tabBarItem.title = "GPA"
         window = UIWindow(frame: UIScreen.main.bounds)
@@ -57,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
-        self.saveContext()
+        model.save_semesters_coredata()
     }
 
     // MARK: - Core Data stack

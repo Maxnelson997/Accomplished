@@ -70,24 +70,25 @@ class GPModel {
             print("hmm error retreiving image count")
         }
     }
-        var CoreDataSemestersArray = NSMutableArray()
     
+    var CoreDataSemestersArray = NSMutableArray()
     
     func save_semesters_coredata() {
-        var image_count_coredata:NSManagedObject!
+        var semester_count_coredata:NSManagedObject!
         
         //check if count exists
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Semesters")
         
         request.returnsObjectsAsFaults = false
+        
         if let results = try? context.fetch(request) {
             
             if results.count != 0 {
                 //a count exists
-                image_count_coredata = results.first as! NSManagedObject
+                semester_count_coredata = results.first as! NSManagedObject
             } else {
                 //create a count
-                image_count_coredata = NSEntityDescription.insertNewObject(forEntityName: "Semesters", into: context)
+                semester_count_coredata = NSEntityDescription.insertNewObject(forEntityName: "Semesters", into: context)
             }
         } else {
             //failed
@@ -98,13 +99,13 @@ class GPModel {
             CoreDataSemestersArray.add(data)
         }
         let coreDataObject = NSKeyedArchiver.archivedData(withRootObject: CoreDataSemestersArray)
-        image_count_coredata.setValue(coreDataObject, forKey: "semester")
+        semester_count_coredata.setValue(coreDataObject, forKey: "semester")
         //store new count
         
         do
         {
             try context.save()
-            print("image count saved in Core Data model: \(String(describing: image_count_coredata.value(forKey: "image")!))")
+            print("semester count saved in Core Data model: \(String(describing: semester_count_coredata.value(forKey: "semester")!))")
         }
         catch
         {
@@ -119,7 +120,7 @@ struct semester {
     var name:String!
     var gpa:String!
     var classes:[semester_class] = []
-    
+
     //convert Data to semester struct
     static func unarchive(data: Data) -> semester {
         guard data.count == MemoryLayout<semester>.stride else {
@@ -130,17 +131,16 @@ struct semester {
         data.withUnsafeBytes({(bytes: UnsafePointer<semester>) -> Void in
             w = UnsafePointer<semester>(bytes).pointee
         })
+
+
         return w!
     }
     
     //convert semester struct to Data
     static func archive(structure:semester) -> Data {
+
         var fw = structure
         return Data(bytes: &fw, count: MemoryLayout<semester>.stride)
-    }
-    
-    init() {
-        //nothin
     }
     
     init(name:String, gpa:String, classes:[semester_class]) {
@@ -156,7 +156,6 @@ struct semester_class {
     var hours:Int!
     var gpa:String!
     
-
     
     init(name: String, grade: String, hours:Int, gpa:String) {
         self.name = name
