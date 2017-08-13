@@ -14,12 +14,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     let model = GPModel.sharedInstance
+    let viewModel = ViewModel()
 //    var main_nav:UINavigationController!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         let main_controller = MainController()
-        model.get_semesters_coredata()
+        model.get_semesters_coredata(completion: {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now(), execute: {
+                            main_controller.gpaBoxLabel.animate(toText: self.viewModel.calculate_all_semester_gpa())
+            })
+
+        })
+
+        
 //        main_nav = UINavigationController(rootViewController: main_controller)
 //        main_nav.tabBarItem.title = "GPA"
         window = UIWindow(frame: UIScreen.main.bounds)

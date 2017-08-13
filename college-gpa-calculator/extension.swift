@@ -21,7 +21,6 @@ extension UIFont {
     }
 }
 
-
 extension UIColor {
     convenience init(red: Int, green: Int, blue: Int) {
         assert(red >= 0 && red <= 255, "Invalid red component")
@@ -73,5 +72,21 @@ extension UITextField {
                 self.alpha = 1
             })
         })
+    }
+    
+    func moveTextField(inView: UIView, moveDistance: Int, up: Bool)
+    {
+        let moveDuration = 0.3
+        //movement similar to isset in php. if up true + if !up true -
+        let movement: CGFloat = CGFloat(up ? -moveDistance : moveDistance)
+        
+        UIView.beginAnimations("animateTextField", context: nil)
+        //animated way
+        UIView.setAnimationBeginsFromCurrentState(true)
+        //completion timer
+        UIView.setAnimationDuration(moveDuration)
+        //
+        inView.frame = inView.frame.offsetBy(dx: 0, dy: movement)
+        UIView.commitAnimations()
     }
 }

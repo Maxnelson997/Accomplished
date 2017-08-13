@@ -36,7 +36,7 @@ class GPModel {
     
     var context:NSManagedObjectContext!
     
-    func get_semesters_coredata() {
+    func get_semesters_coredata(completion: @escaping () -> Void)  {
         context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Sems")
         request.returnsObjectsAsFaults = false
@@ -58,7 +58,6 @@ class GPModel {
    
                     if class_results.count != 0 {
                         var count = 0
-                    
                 
                         print(retrieved_classes.count)
                         for class_result in (class_results as! [Classes]) {
@@ -96,6 +95,7 @@ class GPModel {
                     }
                     
                     self.semesters.append(semester(name: result.name!, gpa: result.gpa!, classes: retrieved_classes1))
+                    completion()
 //                    if let count = result.value(forKey: "semester") as? Data {
 //                        print("semester retrieved: \(count)")
 //                        if let mySavedData = NSKeyedUnarchiver.unarchiveObject(with: count) as? NSArray {

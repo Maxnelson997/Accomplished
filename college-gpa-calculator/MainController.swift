@@ -421,7 +421,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             cell.hours.text = String(describing: current_class.hours!)
             cell.gpa.text = current_class.gpa
             
-            cell.name.font = UIFont.init(customFont: .MavenProBold, withSize: 25)
+            cell.name.font = UIFont.init(customFont: .MavenProBold, withSize: 20)
             cell.name.textColor = .white
             if is_editing {
                 cell.name.setFAIcon(icon: FAType.FATrash, iconSize: 25)

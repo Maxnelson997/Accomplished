@@ -12,7 +12,7 @@ import Font_Awesome_Swift
 
 
 
-class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
+class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate {
     let s_grades:[String] = ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"]
     let s_hours:[String] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
   
@@ -20,6 +20,35 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
     
     func resignText() {
         title_box.resignFirstResponder()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.moveTextField(inView: self, moveDistance: 60, up: false)
+        type_pick.isUserInteractionEnabled = true
+        UIView.animate(withDuration: 0.3, animations: {
+            self.done_button.alpha = 0
+            self.type_pick.alpha = 1
+        })
+
+    }
+    
+
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .none
+        textField.spellCheckingType = .no
+        textField.moveTextField(inView: self, moveDistance: 60, up: true)
+        type_pick.isUserInteractionEnabled = false
+        UIView.animate(withDuration: 0.3, animations: {
+            self.done_button.alpha = 1
+            self.type_pick.alpha = 0
+        })
+
     }
     
     var selected_grade:String = "A"
@@ -67,6 +96,16 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
         return l
     }()
     
+    var done_button:GPLabel = {
+        let l = GPLabel()
+        l.font = UIFont.init(customFont: .MavenProRegular, withSize: 30)
+        l.textAlignment = .center
+        l.backgroundColor = .clear
+        l.isUserInteractionEnabled = false
+        l.text = "DONE"
+        return l
+    }()
+    
     var title_box:UITextField = {
         let l = UITextField()
         l.font = UIFont.init(customFont: .MavenProRegular, withSize: 18)
@@ -78,6 +117,10 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }()
+    
+
+   
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -96,14 +139,20 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
             //        cell.contentView.backgroundColor = UIColor(rgb: 0x3A3A3A).withAlphaComponent(0.8)
             
             cell.contentView.addSubview(type_pick)
-            
+            cell.contentView.addSubview(done_button)
             NSLayoutConstraint.activate(type_pick.getConstraintsOfView(to: cell.contentView))
+          
             NSLayoutConstraint.activate([
-                //            type_pick.leftAnchor.constraint(equalTo: cell.contentView.leftAnchor, constant: 10),
+                done_button.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
+                done_button.leftAnchor.constraint(equalTo: cell.contentView.leftAnchor),
+                done_button.rightAnchor.constraint(equalTo: cell.contentView.rightAnchor),
+                done_button.bottomAnchor.constraint(equalTo: cell.centerYAnchor, constant: 50),
                 ])
         } else {
             cell.contentView.addSubview(title_label)
             cell.contentView.addSubview(title_box)
+
+
             NSLayoutConstraint.activate([
                 
                 title_label.leftAnchor.constraint(equalTo: cell.contentView.leftAnchor),
@@ -114,14 +163,17 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
                 title_box.rightAnchor.constraint(equalTo: cell.contentView.rightAnchor, constant: -10),
                 title_box.leftAnchor.constraint(equalTo: title_label.rightAnchor),
                 title_box.centerYAnchor.constraint(equalTo: cell.contentView.centerYAnchor),
+                
+                
+
         
                 
                 title_label.widthAnchor.constraint(equalTo: cell.contentView.widthAnchor, multiplier: 0.3),
-     
-                
-                
+    
                 
                 ])
+            
+
         }
         
         return cell
@@ -152,9 +204,14 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
         phaseTwo()
     }
     
+
+
+
+    
     func phaseTwo() {
-        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.resignText)))
-        cv.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.resignText)))
+
+      
+        
        
         addSubview(cv)
         
@@ -164,6 +221,9 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
         //            cv.topAnchor.constraint(equalTo: self.topAnchor, constant: 40),
         //            cv.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -40)
         //            ])
+        done_button.translatesAutoresizingMaskIntoConstraints = false
+        done_button.backgroundColor = type_pick.backgroundColor
+        done_button.alpha = 0
         
         NSLayoutConstraint.activate(cv.getConstraintsOfView(to: self))
         cv.delegate = self
@@ -171,6 +231,8 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
         
         type_pick.delegate = self
         type_pick.dataSource = self
+        
+        title_box.delegate = self
 
         //popup view asking for user input
         //pickerview with two columns.
@@ -181,6 +243,11 @@ class NewClassView: UIView, UIPickerViewDataSource, UIPickerViewDelegate, UIColl
         //...
         //NEXT button at the bottom.
         //flips around to class_cv, says: there are no classes in this semester box. tap the plus to add one.
+//        for v in self.subviews {
+//            v.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.resignText)))
+//        }
+        
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.resignText)))
         
         
     }
