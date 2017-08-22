@@ -28,6 +28,9 @@
 		7969A04E1F39271600923C68 /* GPFlipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7969A04D1F39271600923C68 /* GPFlipView.swift */; };
 		7969A0501F3932B500923C68 /* GPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7969A04F1F3932B500923C68 /* GPModel.swift */; };
 		7969A0521F3949DC00923C68 /* GPCellViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7969A0511F3949DC00923C68 /* GPCellViews.swift */; };
+		79AEFE5C1F4A1F6A00E7C9A5 /* MKGradientGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AEFE591F4A1F6A00E7C9A5 /* MKGradientGenerator.swift */; };
+		79AEFE5D1F4A1F6A00E7C9A5 /* MKRingProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AEFE5B1F4A1F6A00E7C9A5 /* MKRingProgressView.swift */; };
+		79AEFE5F1F4A1F8F00E7C9A5 /* MKRingProgressGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AEFE5E1F4A1F8F00E7C9A5 /* MKRingProgressGroupView.swift */; };
 		79EF888E1F3D19610025A838 /* NewClassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EF888D1F3D19610025A838 /* NewClassView.swift */; };
 		79EF88901F3D269A0025A838 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EF888F1F3D269A0025A838 /* ViewModel.swift */; };
 		F6374B4AF59413361EBC7FFB /* Pods_college_gpa_calculator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 920210E14C150891BE5C0979 /* Pods_college_gpa_calculator.framework */; };
@@ -81,6 +84,10 @@
 		7969A04D1F39271600923C68 /* GPFlipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPFlipView.swift; sourceTree = "<group>"; };
 		7969A04F1F3932B500923C68 /* GPModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPModel.swift; sourceTree = "<group>"; };
 		7969A0511F3949DC00923C68 /* GPCellViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPCellViews.swift; sourceTree = "<group>"; };
+		79AEFE591F4A1F6A00E7C9A5 /* MKGradientGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKGradientGenerator.swift; sourceTree = "<group>"; };
+		79AEFE5A1F4A1F6A00E7C9A5 /* MKRingProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKRingProgressView.h; sourceTree = "<group>"; };
+		79AEFE5B1F4A1F6A00E7C9A5 /* MKRingProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKRingProgressView.swift; sourceTree = "<group>"; };
+		79AEFE5E1F4A1F8F00E7C9A5 /* MKRingProgressGroupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKRingProgressGroupView.swift; sourceTree = "<group>"; };
 		79EF888D1F3D19610025A838 /* NewClassView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewClassView.swift; sourceTree = "<group>"; };
 		79EF888F1F3D269A0025A838 /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		7DF77E45CBBF5F9019EDAAFB /* Pods-college-gpa-calculatorUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-college-gpa-calculatorUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-college-gpa-calculatorUITests/Pods-college-gpa-calculatorUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -165,6 +172,7 @@
 		79126E6D1F38CF55002D640C /* college-gpa-calculator */ = {
 			isa = PBXGroup;
 			children = (
+				79AEFE581F4A1F6000E7C9A5 /* rings */,
 				7968A2571F3D593C0084EEF7 /* Maven_Pro */,
 				79126E6E1F38CF55002D640C /* AppDelegate.swift */,
 				79126E701F38CF55002D640C /* MainController.swift */,
@@ -213,6 +221,17 @@
 				7968A25C1F3D593C0084EEF7 /* OFL.txt */,
 			);
 			path = Maven_Pro;
+			sourceTree = "<group>";
+		};
+		79AEFE581F4A1F6000E7C9A5 /* rings */ = {
+			isa = PBXGroup;
+			children = (
+				79AEFE5E1F4A1F8F00E7C9A5 /* MKRingProgressGroupView.swift */,
+				79AEFE591F4A1F6A00E7C9A5 /* MKGradientGenerator.swift */,
+				79AEFE5A1F4A1F6A00E7C9A5 /* MKRingProgressView.h */,
+				79AEFE5B1F4A1F6A00E7C9A5 /* MKRingProgressView.swift */,
+			);
+			name = rings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -504,17 +523,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				79126E711F38CF55002D640C /* MainController.swift in Sources */,
+				79AEFE5C1F4A1F6A00E7C9A5 /* MKGradientGenerator.swift in Sources */,
 				7969A0521F3949DC00923C68 /* GPCellViews.swift in Sources */,
 				79126E6F1F38CF55002D640C /* AppDelegate.swift in Sources */,
 				793C28391F397E4600C05C4F /* extension.swift in Sources */,
 				7969A04E1F39271600923C68 /* GPFlipView.swift in Sources */,
 				79126E771F38CF55002D640C /* college_gpa_calculator.xcdatamodeld in Sources */,
+				79AEFE5D1F4A1F6A00E7C9A5 /* MKRingProgressView.swift in Sources */,
 				79EF888E1F3D19610025A838 /* NewClassView.swift in Sources */,
 				7969A04A1F3925F800923C68 /* GPLabel.swift in Sources */,
 				7942E68B1F3C1491007F54E9 /* NewSemesterView.swift in Sources */,
 				7969A0501F3932B500923C68 /* GPModel.swift in Sources */,
 				79EF88901F3D269A0025A838 /* ViewModel.swift in Sources */,
 				7969A04C1F39269100923C68 /* GPView.swift in Sources */,
+				79AEFE5F1F4A1F8F00E7C9A5 /* MKRingProgressGroupView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -668,7 +690,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = MaxNelson.CollegeGPACalculator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -684,7 +706,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = MaxNelson.CollegeGPACalculator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

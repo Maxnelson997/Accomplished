@@ -10,7 +10,6 @@ import UIKit
 import Font_Awesome_Swift
 
 class empty_cell:UICollectionViewCell {
-
     override func awakeFromNib() {
 //        let view = UIView()
 //        view.translatesAutoresizingMaskIntoConstraints = false
@@ -21,10 +20,15 @@ class empty_cell:UICollectionViewCell {
     override func prepareForReuse() {
         
     }
+}
 
+func delay(_ delay: Double, closure: @escaping ()->()) {
+    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
 }
 
 class semester_cell:UICollectionViewCell {
+    
+
     
     var name:GPLabel = {
         let l = GPLabel()
@@ -33,31 +37,53 @@ class semester_cell:UICollectionViewCell {
 
         return l
     }()
-    var gpa:GPLabel = {
-        let l = GPLabel()
-        l.font = UIFont.init(customFont: .MavenProBold, withSize: 35)
-        l.backgroundColor = .clear
 
-        return l
-    }()
     
     fileprivate lazy var stack:GPStackView = {
-        let s = GPStackView(arrangedSubviews: [self.name, self.gpa])
+        let s = GPStackView(arrangedSubviews: [self.name, self.groupContainerView])
         s.translatesAutoresizingMaskIntoConstraints = false
         s.axis = .vertical
 
         return s
     }()
     
+    func updateMainGroupProgress() {
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(1.0)
+        progressGroup.ring1.progress = Double(arc4random() % 200) / 100.0
+        CATransaction.commit()
+    }
+    var progressGroup: MKRingProgressGroupView = {
+        let progressGroup = MKRingProgressGroupView()
+        progressGroup.translatesAutoresizingMaskIntoConstraints = false
+        return progressGroup
+    }()
     var stack_cons:[NSLayoutConstraint]!
+    var groupContainerView: UIView = {
+       let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
     
     var exists:Bool = false
 
     override func awakeFromNib() {
-
         self.layer.masksToBounds = true
         self.layer.cornerRadius = 12
+        
+        //iconsHeightConstraint.constant = progressGroup.ringWidth * 3 + progressGroup.ringSpacing * 2
         if !exists {
+
+                groupContainerView.addSubview(progressGroup)
+            
+            NSLayoutConstraint.activate([
+                progressGroup.leftAnchor.constraint(equalTo: groupContainerView.leftAnchor),
+                progressGroup.rightAnchor.constraint(equalTo: groupContainerView.rightAnchor),
+                progressGroup.topAnchor.constraint(equalTo: groupContainerView.topAnchor),
+                progressGroup.bottomAnchor.constraint(equalTo: groupContainerView.bottomAnchor),
+                ])
+            progressGroup.ringWidth = contentView.bounds.width * 0.08
+        
             contentView.addSubview(stack)
             stack_cons = [
                 stack.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20),
@@ -67,10 +93,16 @@ class semester_cell:UICollectionViewCell {
             ]
             NSLayoutConstraint.activate(stack_cons)
             NSLayoutConstraint.activate([
-                name.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.3),
-                gpa.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.7),
+                name.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.1),
+                groupContainerView.heightAnchor.constraint(equalTo: stack.heightAnchor, multiplier: 0.9),
                 ])
             exists = true
+            self.groupContainerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.updateMainGroupProgress)))
+            //        updateMainGroupProgress()
+            
+            delay(0.5) {
+                self.updateMainGroupProgress()
+            }
         }
     }
     override func prepareForReuse() {

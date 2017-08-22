@@ -399,15 +399,19 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "semester_cell", for: indexPath) as! semester_cell
             cell.awakeFromNib()
             cell.name.text = model.semesters[indexPath.item].name
-            cell.gpa.text = model.semesters[indexPath.item].gpa
-            cell.gpa.font = UIFont.init(customFont: .MavenProBold, withSize: 35)
-            cell.gpa.textColor = .white
+//            cell.gpa.text = model.semesters[indexPath.item].gpa
+//            cell.gpa.font = UIFont.init(customFont: .MavenProBold, withSize: 35)
+//            cell.gpa.textColor = .white
             if is_editing {
-                cell.gpa.setFAIcon(icon: FAType.FATrash, iconSize: 35)
-                cell.gpa.setFAColor(color: UIColor.white)
-                cell.gpa.isUserInteractionEnabled = true
+//                cell.gpa.setFAIcon(icon: FAType.FATrash, iconSize: 35)
+//                cell.gpa.setFAColor(color: UIColor.white)
+                cell.groupContainerView.isUserInteractionEnabled = true
+                cell.progressGroup.isUserInteractionEnabled = true
                 cell.name.text = "DELETE \(cell.name.text!)"
 //                cell.gpa.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(remove_selected_semester)))
+            } else {
+                cell.groupContainerView.isUserInteractionEnabled = false
+                cell.progressGroup.isUserInteractionEnabled = false
             }
 
             return cell
@@ -419,7 +423,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             cell.grade.text = current_class.grade
             model.semesters[model.selected_semester_index].classes[indexPath.item].location = indexPath.item
             cell.hours.text = String(describing: current_class.hours!)
-            cell.gpa.text = current_class.gpa
+//            cell.gpa.text = current_class.gpa
             
             cell.name.font = UIFont.init(customFont: .MavenProBold, withSize: 20)
             cell.name.textColor = .white
@@ -431,7 +435,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
      
                 cell.grade.text = ""
                 cell.hours.text = "DELETE"
-                cell.gpa.text = ""
+//                cell.gpa.text = ""
                 //                cell.gpa.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(remove_selected_semester)))
             }
 
@@ -488,7 +492,7 @@ class MainController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             return CGSize(width: box_size, height: box_size)
         } else {
             let box_size = collectionView.frame.width - 20
-            return CGSize(width: box_size, height: box_size/3.5)
+            return CGSize(width: box_size, height: 100)
         }
     }
     var footer_minus_ref:UIButton!
